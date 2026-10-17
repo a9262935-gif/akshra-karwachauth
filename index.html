@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Under The Same Moon • Akshra & Rudhar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #070a13;
+            color: #f1f5f9;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        .stars-bg {
+            background-image:
+                radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 80px 120px, #fef08a, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 160px 50px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(1.5px 1.5px at 260px 180px, #fbcfe8, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 340px 90px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 450px 220px, #fde047, rgba(0, 0, 0, 0));
+            background-repeat: repeat;
+            background-size: 400px 250px;
+        }
+
+        /* Moon Glow & Slow 3D Rotation */
+        @keyframes moonGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 35px 12px rgba(254, 240, 138, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 55px 22px rgba(254, 240, 138, 0.65);
+            }
+        }
+
+        .animate-moon {
+            animation: moonGlow 5s ease-in-out infinite;
+        }
+
+        @keyframes moonRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-moon-texture {
+            animation: moonRotate 45s linear infinite;
+            transform-origin: center center;
+        }
+
+        /* Floating Gift Pulse */
+        @keyframes giftBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-8px) scale(1.08);
+            }
+        }
+
+        .animate-gift {
+            animation: giftBounce 2.5s ease-in-out infinite;
+        }
+
+        .memory-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .memory-card:hover {
+            border-color: rgba(251, 207, 232, 0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px -10px rgba(244, 114, 182, 0.25);
+        }
+    </style>
+</head>
+
+<body class="stars-bg selection:bg-pink-500 selection:text-white pb-20">
+
+    <!-- Background Music Audio Player -->
+    <audio id="bgMusic" loop preload="auto">
+        <source
+            src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-9835.mp3"
+            type="audio/mpeg">
+    </audio>
+
+    <!-- Top Navigation & Floating Controls -->
+    <header class="fixed top-3 right-3 z-40 flex items-center gap-2">
+        <button onclick="toggleAudio()" id="musicBtn"
+            class="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-900/90 border border-slate-700 backdrop-blur-md text-xs font-semibold text-slate-200 hover:border-pink-400 transition shadow-lg">
+            <span id="musicIcon" class="text-sm animate-pulse">🎵</span>
+            <span id="musicText" class="text-[11px]">Play Song</span>
+        </button>
+    </header>
+
+    <!-- FLOATING SURPRISE GIFT (Double Click / Tap for Grand Shiv-Parvati Blessing) -->
+    <div class="fixed bottom-5 right-5 z-40 flex flex-col items-end cursor-pointer select-none"
+        ondblclick="triggerSurpriseGift()" onclick="handleGiftTap()">
+        <div
+            class="text-[10px] font-mono font-bold bg-pink-500/90 text-white px-2 py-0.5 rounded-full mb-1 shadow-md animate-pulse">
+            Double Tap Me! ✨
+        </div>
+        <div
+            class="w-14 h-14 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-amber-300 p-0.5 shadow-2xl animate-gift flex items-center justify-center">
+            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center text-2xl">
+                🎁
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="min-h-[85vh] relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-12">
+
+        <!-- Rotating Virtual Moon (Secret Developer Trigger: Tap 3 Times) -->
+        <div class="relative mb-6 cursor-pointer select-none" id="secretMoonTrigger" onclick="handleMoonClick()">
+            <div
+                class="w-32 h-32 md:w-44 md:h-44 rounded-full bg-gradient-to-tr from-amber-200 via-yellow-100 to-white animate-moon relative flex items-center justify-center overflow-hidden border border-amber-100/40">
+
+                <!-- Rotating Craters -->
+                <div class="absolute inset-0 w-full h-full animate-moon-texture pointer-events-none">
+                    <div class="w-7 h-7 rounded-full bg-amber-300/40 absolute top-5 left-7 blur-[1px]"></div>
+                    <div class="w-10 h-10 rounded-full bg-amber-300/30 absolute bottom-7 right-8 blur-[1px]"></div>
+                    <div class="w-5 h-5 rounded-full bg-amber-300/40 absolute bottom-10 left-9 blur-[1px]"></div>
+                    <div class="w-4 h-4 rounded-full bg-amber-200/50 absolute top-10 right-10 blur-[1px]"></div>
+                    <div class="w-6 h-6 rounded-full bg-amber-200/35 absolute top-3 right-16 blur-[1px]"></div>
+                </div>
+
+                <!-- 3D Spherical Light Overlay -->
+                <div
+                    class="absolute inset-0 rounded-full bg-gradient-to-t from-amber-400/20 via-transparent to-white/40 pointer-events-none">
+                </div>
+            </div>
+
+            <div
+                class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-slate-900/95 border border-amber-300/40 text-amber-200 px-3 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase backdrop-blur-md whitespace-nowrap shadow-md">
+                Karwa Chauth 2026
+            </div>
+        </div>
+
+        <h3 class="text-xs uppercase tracking-[0.25em] text-pink-300 font-semibold mb-2">
+            Two Years of Infinite Memories • Version 1.0
+        </h3>
+        <h1
+            class="serif text-3xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-100 via-amber-100 to-rose-200 max-w-3xl leading-tight">
+            Under The Same Moon, For The Same Girl.
+        </h1>
+        <p class="handwriting text-2xl sm:text-3xl text-amber-200/90 mt-3 max-w-xl">
+            "Tu hai toh mujhe phir aur kya chahiye..."
+        </p>
+
+        <!-- Scroll Indicator -->
+        <div class="mt-10 flex flex-col items-center gap-1.5 opacity-75">
+            <span class="text-[10px] uppercase tracking-widest text-slate-400">Tap any memory to view full screen</span>
+            <div class="w-4 h-7 rounded-full border border-slate-600 flex justify-center p-1">
+                <div class="w-1 h-1.5 rounded-full bg-pink-400 animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= TIMELINE CHAPTERS ================= -->
+    <main class="max-w-3xl mx-auto px-4 py-8 relative">
+        <div
+            class="absolute left-6 md:left-1/2 top-4 bottom-4 w-0.5 bg-gradient-to-b from-pink-500/20 via-amber-400/40 to-rose-500/20 -translate-x-1/2 hidden md:block">
+        </div>
+        <div id="timelineContainer" class="space-y-14 md:space-y-20"></div>
+    </main>
+
+    <!-- ================= COUPONS OF CARE ================= -->
+    <section class="max-w-3xl mx-auto px-4 py-12">
+        <div class="text-center mb-8">
+            <span class="text-[11px] font-mono font-bold text-pink-400 uppercase tracking-widest">Special
+                Privileges</span>
+            <h2 class="serif text-2xl sm:text-3xl font-black text-slate-100 mt-1">Coupons of Care</h2>
+            <p class="text-xs text-slate-400 mt-1">Tap any coupon to redeem your privilege</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div onclick="redeemCoupon(this, 'Immunity Pass Activated! Rudhar will unconditionally accept defeat.')"
+                class="p-3.5 rounded-xl bg-slate-900/80 border border-pink-500/30 hover:border-pink-400 cursor-pointer transition text-center shadow-md">
+                <div class="text-2xl mb-1">🎟️</div>
+                <div class="text-[10px] font-mono text-pink-300 font-bold">#01</div>
+                <div class="serif text-xs font-bold text-slate-100">Drama Immunity</div>
+                <span
+                    class="inline-block mt-2 text-[9px] bg-pink-500/20 text-pink-300 px-2 py-0.5 rounded-full font-bold">Tap</span>
+            </div>
+
+            <div onclick="redeemCoupon(this, 'Vent Session Booked! Rudhar is on standby for 100% listening with zero gyaan.')"
+                class="p-3.5 rounded-xl bg-slate-900/80 border border-amber-500/30 hover:border-amber-400 cursor-pointer transition text-center shadow-md">
+                <div class="text-2xl mb-1">🛋️</div>
+                <div class="text-[10px] font-mono text-amber-300 font-bold">#02</div>
+                <div class="serif text-xs font-bold text-slate-100">Midnight Rant</div>
+                <span
+                    class="inline-block mt-2 text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-bold">Tap</span>
+            </div>
+
+            <div onclick="redeemCoupon(this, 'Art Order Confirmed! Custom portrait will be designed for you.')"
+                class="p-3.5 rounded-xl bg-slate-900/80 border border-rose-500/30 hover:border-rose-400 cursor-pointer transition text-center shadow-md">
+                <div class="text-2xl mb-1">🎨</div>
+                <div class="text-[10px] font-mono text-rose-300 font-bold">#03</div>
+                <div class="serif text-xs font-bold text-slate-100">Custom Art</div>
+                <span
+                    class="inline-block mt-2 text-[9px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full font-bold">Tap</span>
+            </div>
+
+            <div onclick="redeemCoupon(this, 'Virtual Hug Dispatched! Connecting hearts directly.')"
+                class="p-3.5 rounded-xl bg-slate-900/80 border border-teal-500/30 hover:border-teal-400 cursor-pointer transition text-center shadow-md">
+                <div class="text-2xl mb-1">🤗</div>
+                <div class="text-[10px] font-mono text-teal-300 font-bold">#04</div>
+                <div class="serif text-xs font-bold text-slate-100">Warmth Call</div>
+                <span
+                    class="inline-block mt-2 text-[9px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded-full font-bold">Tap</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= UNFILTERED LETTER ================= -->
+    <section class="max-w-xl mx-auto px-4 py-8">
+        <div class="memory-card p-6 sm:p-8 border-amber-300/30 relative">
+            <div class="text-center pb-4 border-b border-slate-700/60">
+                <span class="text-[10px] font-mono text-amber-300 font-bold tracking-widest uppercase">The Karwa Chauth
+                    Vow</span>
+                <h2 class="serif text-xl sm:text-2xl font-bold text-slate-100 mt-1">Meri Sabse Pyaari Akshra,</h2>
+            </div>
+
+            <div class="text-xs sm:text-sm text-slate-300 space-y-3 pt-5 leading-relaxed font-light">
+                <p>Mujhe pata hai pichle kuch din hum dono ke liye aasan nahi the. Galtiyan hui, gusse nikle, aur darr
+                    bhi laga ki kahin sab bikhar na jaye. Par jab toofan thamta hai na, tab samajh aata hai ki kon sa
+                    rishta kitna gehra hai.</p>
+                <p>Tune pucha tha na ki <em>"mere liye kya gift laaoge, tu hai toh aur kya chahiye?"</em> Sach yahi hai
+                    Akshra, mere paas koi materialistic cheez dene ke liye nahi hai, par ek aisa dil hai jo sirf tere
+                    liye dhadakta hai.</p>
+                <p>Ye do saal ka safar aasan nahi raha, par is safar mein maine ek cheez seekhi: Chahe kitni bhi doori
+                    ho, chahe kitne bhi pehre hon, meri har dua sirf tere sath likhi hai.</p>
+                <p class="handwriting text-xl text-amber-200 pt-1">"Fasting is done. Now and forever, you belong to my
+                    soul."</p>
+                <p class="text-right text-[11px] font-mono text-pink-300 pt-2">— Hamesha Tera, Rudhar ❤️</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 border-t border-slate-800/80 text-[11px] text-slate-500 space-y-1">
+        <div class="serif text-slate-300">Next Grand Chapter: 2-Year Milestone</div>
+        <div class="font-mono text-pink-400 font-semibold">February 8, 2027 • The Story Continues</div>
+        <p class="text-slate-600">Handcrafted with code & love by your Computer Engineer.</p>
+    </footer>
+
+    <!-- ================= FULLSCREEN MEMORY MODAL (POPUP ON CLICK) ================= -->
+    <div id="viewModal"
+        class="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
+        <div
+            class="max-w-2xl w-full bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden shadow-2xl relative text-left">
+            <button onclick="closeViewModal()"
+                class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-rose-600 transition">✕</button>
+
+            <div class="w-full max-h-80 sm:max-h-96 overflow-hidden bg-black flex items-center justify-center">
+                <img id="vImg" src="" alt="Memory Image" class="w-full h-full object-contain">
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-3">
+                <span id="vChapter" class="text-xs font-mono font-bold text-pink-400 tracking-wider"></span>
+                <h2 id="vTitle" class="serif text-2xl sm:text-3xl font-bold text-slate-100"></h2>
+                <div id="vBadge"
+                    class="inline-block bg-slate-800 text-amber-200 text-xs px-2.5 py-1 rounded-md font-mono"></div>
+                <p id="vNote" class="text-xs sm:text-sm text-slate-300 leading-relaxed pt-2"></p>
+                <p id="vQuote" class="handwriting text-xl sm:text-2xl text-amber-300 pt-2"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= GRAND SHIV-PARVATI SURPRISE GIFT MODAL ================= -->
+    <div id="surpriseModal"
+        class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div
+            class="max-w-lg w-full bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-amber-300/50 rounded-3xl p-6 sm:p-8 text-center relative shadow-[0_0_60px_rgba(251,191,36,0.3)] my-6">
+
+            <button onclick="closeSurpriseModal()"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+
+            <div class="text-4xl mb-2 animate-bounce">🔱 ✨ 🪷</div>
+            <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-300 font-bold">Sacred Bond of
+                Eternity</span>
+
+            <h2
+                class="serif text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-yellow-100 mt-2">
+                Jaise Shiv Aur Parvati...
+            </h2>
+
+            <!-- Sacred / Couple Frame -->
+            <div
+                class="w-full h-56 sm:h-64 rounded-2xl overflow-hidden my-5 border-2 border-amber-400/30 relative shadow-2xl">
+                <img src="images/shiv_parvati.jpg" alt="Sacred Union" class="w-full h-full object-cover"
+                    onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'">
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-center p-3">
+                    <span class="serif text-white text-sm italic">"Har Saavan, Har Karwa Chauth, Sirf Tere
+                        Saath."</span>
+                </div>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+                "Jaise Shiv ke bina Shakti adhoori hain, waise hi meri har dua, meri har khushi Akshra ke bina adhoori
+                hai. Ye rishta sirf do dilon ka nahi, rooh ka bandhan hai jo waqt aur faaslon se bohot upar hai."
+            </p>
+
+            <p class="handwriting text-2xl text-pink-300 pt-3">
+                I Love You To The Moon And Back, Meri Biwi ❤️
+            </p>
+
+            <button onclick="closeSurpriseModal()"
+                class="mt-5 px-6 py-2 bg-gradient-to-r from-amber-400 to-rose-400 text-slate-950 font-bold text-xs rounded-full shadow-lg hover:scale-105 transition">
+                Forever Together ♾️
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= SECRET DEVELOPER MODAL (HIDDEN) ================= -->
+    <div id="devModal"
+        class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div
+            class="bg-slate-900 border border-slate-700 max-w-md w-full rounded-2xl p-5 shadow-2xl relative text-left my-8">
+
+            <button onclick="closeDevModal()"
+                class="absolute top-3 right-3 text-slate-400 hover:text-white text-lg">✕</button>
+
+            <div id="loginStep">
+                <h3 class="serif text-lg font-bold text-amber-300">Secret Access</h3>
+                <p class="text-xs text-slate-400 mt-1">Enter PIN to edit memories:</p>
+                <div class="mt-3 flex gap-2">
+                    <input type="password" id="devPass" placeholder="Enter PIN"
+                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-amber-400">
+                    <button onclick="checkDevAuth()"
+                        class="px-4 py-2 bg-amber-400 text-slate-950 font-bold text-xs rounded-lg hover:bg-amber-300">Unlock</button>
+                </div>
+            </div>
+
+            <div id="formStep" class="hidden space-y-4 max-h-[75vh] overflow-y-auto pr-1">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <h3 id="modalTitle" class="serif text-base font-bold text-pink-300">Add / Edit Memory</h3>
+                    <button onclick="resetToDefaults()" class="text-[10px] text-rose-400 hover:underline">Reset
+                        Defaults</button>
+                </div>
+
+                <input type="hidden" id="editIndex" value="-1">
+
+                <div>
+                    <label class="text-[10px] font-mono text-slate-400">Chapter Label</label>
+                    <input type="text" id="mChapter" placeholder="CHAPTER 01 • THE BEGINNING"
+                        class="w-full mt-1 px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs text-white">
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-mono text-slate-400">Memory Title</label>
+                    <input type="text" id="mTitle" placeholder="e.g. Oberoi Cafe Table Corner"
+                        class="w-full mt-1 px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs text-white">
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-mono text-slate-400">Location Tag / Badge</label>
+                    <input type="text" id="mBadge" placeholder="📍 That Special Corner"
+                        class="w-full mt-1 px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs text-white">
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-mono text-slate-400">Story / Note</label>
+                    <textarea id="mNote" rows="3" placeholder="Write what made this special..."
+                        class="w-full mt-1 px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs text-white"></textarea>
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-mono text-slate-400">Quote / Handwriting Tag</label>
+                    <input type="text" id="mQuote" placeholder='"Jahan se hum shuru huye..."'
+                        class="w-full mt-1 px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs text-white">
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-mono text-slate-400">Photo / Image</label>
+                    <div class="mt-1 space-y-2">
+                        <input type="text" id="mImgUrl" placeholder="Image Path (e.g. images/proposal.jpg) OR Web URL"
+                            class="w-full px-2.5 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs text-white">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] text-slate-400">OR Upload:</span>
+                            <input type="file" id="mImgFile" accept="image/*"
+                                class="text-xs text-slate-400 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:bg-pink-600 file:text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="saveMemory()"
+                    class="w-full py-2 bg-gradient-to-r from-pink-500 to-rose-500 font-bold text-xs rounded-lg shadow-lg text-white">
+                    💾 Save Memory
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Execution -->
+    <script>
+        const defaultMemories = [
+            {
+                chapter: "CHAPTER 01 • THE BEGINNING",
+                title: "The Proposal & First Confession",
+                badge: "📍 The First 'I Love You'",
+                note: "Wo din jab darr aur dhadkan dono double the, par dil ko bas ye pata tha ki yahi wo ladki hai jiske sath chalna hai. Puraane chats, late-night talks aur wo pehla haan.",
+                quote: "Jahan se hum do se 'hum' bane...",
+                img: "images/proposal.jpg",
+                fallback: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                chapter: "CHAPTER 02 • THE REALIZATION",
+                title: "The Turning Point",
+                badge: "📍 Youth Parliament • First Official Photo",
+                note: "School se pehli baar ek sath nikalna, alag buses mein hokar bhi ek doosre ki fikar. Us din jab tune meri care ki thi, tab dil ne pukara tha: I came with a girlfriend, but I returned with a wife.",
+                quote: "I came with a girlfriend, but I returned with a wife.",
+                img: "images/youth_parliament.jpg",
+                fallback: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                chapter: "CHAPTER 03 • THE SECRET DATES",
+                title: "Oberoi Cafe Diaries",
+                badge: "📍 Oberoi Cafe Table Corner",
+                note: "Chori-chhupe milne ka nasha, coffee ke ghoont aur ghanton tak waqt ka thehar jana. Pichli baar main scrapbook bhool gaya tha, par un lamhon ka har panna dil par chhap gaya tha.",
+                quote: "Coffee thandi ho gayi, par baatein nahi...",
+                img: "images/oberoi_cafe.jpg",
+                fallback: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                chapter: "CHAPTER 04 • BEYOND CAMERAS",
+                title: "The Car Ride & Quiet Vows",
+                badge: "📍 Farewell & That Empty Road Drive",
+                note: "Kuch lamhon ki tasveerein nahi hoti, wo bas rooh mein chhap jaate hain. Farewell ke wo din aur bina kisi parwah ke sirf tere liye gaadi mod kar chale aana.",
+                quote: "Tasveer nahi hai, par ehsaas zinda hai.",
+                img: "images/farewell.jpg",
+                fallback: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                chapter: "CHAPTER 05 • SACRED THREADS",
+                title: "The Red Bangles & Saavan Vow",
+                badge: "📍 Saavan • The Sacred Bangles",
+                note: "Humara rishta sirf baaton ka nahi, vishwas aur bhakti ka hai. Saavan ke mahine mein ek sath Shiv Puran sunna aur wo laal choodiyan jo tune pehni theen.",
+                quote: "Kangan tere, duaayein meri...",
+                img: "images/bangles.jpg",
+                fallback: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                chapter: "CHAPTER 06 • MY STRONGEST PILLAR",
+                title: "My Best Supporter & Sweet Nautanki",
+                badge: "📍 'Jab tak beta mummy bole...'",
+                note: "Jab sab mushkil lagta hai, tab tera ek message ya funny reel dimaag ka bojh hata deta hai. Scratchies ka hisaab rakhna, meri galtiyon ko maaf karna aur sath khade rehna.",
+                quote: "Meri sabse badi supporter, meri sabse pyari jaan.",
+                img: "images/cute_video.jpg",
+                fallback: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        let isUnlocked = false;
+
+        function getMemories() {
+            const saved = localStorage.getItem('akshra_memories_data');
+            return saved ? JSON.parse(saved) : defaultMemories;
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            const memories = getMemories();
+            container.innerHTML = '';
+
+            memories.forEach((item, index) => {
+                const isEven = index % 2 === 0;
+                const cardHtml = `
+          <div class="relative flex flex-col md:flex-row items-center gap-6 ${isEven ? '' : 'md:flex-row-reverse'}">
+            <div class="w-full md:w-1/2 ${isEven ? 'text-left md:text-right md:pr-6' : 'text-left md:pl-6'}">
+              <div class="flex items-center gap-2 ${isEven ? 'justify-start md:justify-end' : 'justify-start'}">
+                <span class="text-[11px] font-mono font-bold text-pink-400 tracking-wider">${item.chapter}</span>
+                ${isUnlocked ? `<button onclick="editMemory(${index})" class="text-[11px] text-amber-300 bg-amber-950/60 border border-amber-500/40 px-2 py-0.5 rounded-full">✏️ Edit</button> <button onclick="deleteMemory(${index})" class="text-[11px] text-rose-400 bg-rose-950/60 border border-rose-500/40 px-2 py-0.5 rounded-full">🗑️</button>` : ''}
+              </div>
+              <h3 class="serif text-xl sm:text-2xl font-bold text-slate-100 mt-1 cursor-pointer hover:text-pink-300 transition" onclick="openMemoryModal(${index})">${item.title}</h3>
+              <p class="text-xs sm:text-sm text-slate-400 mt-2.5 leading-relaxed">${item.note}</p>
+              ${item.quote ? `<p class="handwriting text-lg sm:text-xl text-amber-300 mt-2">"${item.quote}"</p>` : ''}
+            </div>
+
+            <div class="w-full md:w-1/2 cursor-pointer" onclick="openMemoryModal(${index})">
+              <div class="memory-card p-2 sm:p-3 shadow-xl group">
+                <div class="w-full h-56 sm:h-64 rounded-lg bg-slate-800/80 overflow-hidden flex items-center justify-center relative border border-slate-700/60">
+                  <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${item.fallback || 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80'}'">
+                  <div class="absolute bottom-2 left-2 bg-black/75 backdrop-blur-sm px-2.5 py-1 rounded text-[10px] font-mono text-pink-200">
+                    ${item.badge}
+                  </div>
+                  <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-[10px] text-slate-300 px-2 py-0.5 rounded-full opacity-80 group-hover:opacity-100 transition">
+                    🔍 Tap to Expand
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        // Full-Screen Memory Modal Logic
+        function openMemoryModal(index) {
+            const memories = getMemories();
+            const m = memories[index];
+            document.getElementById('vImg').src = m.img;
+            document.getElementById('vImg').onerror = function () { this.src = m.fallback; };
+            document.getElementById('vChapter').innerText = m.chapter;
+            document.getElementById('vTitle').innerText = m.title;
+            document.getElementById('vBadge').innerText = m.badge;
+            document.getElementById('vNote').innerText = m.note;
+            document.getElementById('vQuote').innerText = m.quote ? `"${m.quote}"` : "";
+            document.getElementById('viewModal').classList.remove('hidden');
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewModal').classList.add('hidden');
+        }
+
+        // Surprise Gift Trigger Logic
+        let giftTapCount = 0;
+        let giftTapTimer = null;
+        function handleGiftTap() {
+            giftTapCount++;
+            clearTimeout(giftTapTimer);
+            if (giftTapCount >= 2) {
+                giftTapCount = 0;
+                triggerSurpriseGift();
+            } else {
+                giftTapTimer = setTimeout(() => { giftTapCount = 0; }, 500);
+            }
+        }
+
+        function triggerSurpriseGift() {
+            // Confetti burst
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            // Auto play song if not playing
+            if (!isPlaying) {
+                toggleAudio();
+            }
+
+            document.getElementById('surpriseModal').classList.remove('hidden');
+        }
+
+        function closeSurpriseModal() {
+            document.getElementById('surpriseModal').classList.add('hidden');
+        }
+
+        // Moon Secret Admin Triple Tap
+        let tapCount = 0;
+        let tapTimer = null;
+        function handleMoonClick() {
+            tapCount++;
+            clearTimeout(tapTimer);
+            if (tapCount >= 3) {
+                tapCount = 0;
+                openDevModal();
+            } else {
+                tapTimer = setTimeout(() => { tapCount = 0; }, 800);
+            }
+        }
+
+        function openDevModal() {
+            document.getElementById('devModal').classList.remove('hidden');
+        }
+        function closeDevModal() {
+            document.getElementById('devModal').classList.add('hidden');
+        }
+
+        function checkDevAuth() {
+            const pin = document.getElementById('devPass').value;
+            if (pin === "2026") {
+                isUnlocked = true;
+                document.getElementById('loginStep').classList.add('hidden');
+                document.getElementById('formStep').classList.remove('hidden');
+                renderTimeline();
+            } else {
+                alert("Incorrect PIN!");
+            }
+        }
+
+        function editMemory(index) {
+            const memories = getMemories();
+            const item = memories[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('modalTitle').innerText = "✏️ Edit Chapter #" + (index + 1);
+            document.getElementById('mChapter').value = item.chapter;
+            document.getElementById('mTitle').value = item.title;
+            document.getElementById('mBadge').value = item.badge;
+            document.getElementById('mNote').value = item.note;
+            document.getElementById('mQuote').value = item.quote;
+            document.getElementById('mImgUrl').value = item.img;
+            openDevModal();
+        }
+
+        function deleteMemory(index) {
+            if (confirm("Kya sach mein is memory ko delete karna hai?")) {
+                const memories = getMemories();
+                memories.splice(index, 1);
+                localStorage.setItem('akshra_memories_data', JSON.stringify(memories));
+                renderTimeline();
+            }
+        }
+
+        function saveMemory() {
+            const index = parseInt(document.getElementById('editIndex').value);
+            const chapter = document.getElementById('mChapter').value || "NEW CHAPTER";
+            const title = document.getElementById('mTitle').value || "A Sweet Memory";
+            const badge = document.getElementById('mBadge').value || "📍 Special Moment";
+            const note = document.getElementById('mNote').value || "";
+            const quote = document.getElementById('mQuote').value || "";
+            const imgUrlInput = document.getElementById('mImgUrl').value;
+            const fileInput = document.getElementById('mImgFile');
+
+            function commit(imgSrc) {
+                const memories = getMemories();
+                const newObj = {
+                    chapter, title, badge, note, quote,
+                    img: imgSrc || "images/proposal.jpg",
+                    fallback: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80"
+                };
+
+                if (index >= 0) {
+                    memories[index] = newObj;
+                } else {
+                    memories.push(newObj);
+                }
+
+                localStorage.setItem('akshra_memories_data', JSON.stringify(memories));
+                document.getElementById('editIndex').value = "-1";
+                document.getElementById('modalTitle').innerText = "Add / Edit Memory";
+                renderTimeline();
+                closeDevModal();
+            }
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) { commit(e.target.result); };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                commit(imgUrlInput);
+            }
+        }
+
+        function resetToDefaults() {
+            if (confirm("Saara data reset karke default version par lana hai?")) {
+                localStorage.removeItem('akshra_memories_data');
+                renderTimeline();
+                closeDevModal();
+            }
+        }
+
+        // Audio & Coupons Logic
+        let isPlaying = false;
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.innerText = "🎵";
+                musicText.innerText = "Play Song";
+            } else {
+                audio.play().catch(e => console.log("Audio play blocked:", e));
+                musicIcon.innerText = "⏸️";
+                musicText.innerText = "Playing";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function redeemCoupon(element, alertMsg) {
+            alert("✨ " + alertMsg);
+            element.classList.add('opacity-50', 'pointer-events-none');
+            const span = element.querySelector('span');
+            if (span) {
+                span.innerText = "Redeemed ✅";
+                span.className = "inline-block mt-2 text-[9px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-bold";
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+                openDevModal();
+            }
+        });
+
+        renderTimeline();
+    </script>
+</body>
+
+</html>
