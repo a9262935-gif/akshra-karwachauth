@@ -3,26 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Under The Same Moon, For The Same Girl | Karwa Chauth 2026</title>
 
-    <!-- Fonts & Libraries -->
+    <!-- Luxury Royal & Handwritten Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap"
         rel="stylesheet">
+
+    <!-- Confetti Canvas Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            --bg: #07090e;
-            --card-bg: #0f1422;
+            --bg-dark: #07090e;
+            --card-bg: rgba(15, 20, 34, 0.85);
+            --card-border: rgba(244, 196, 48, 0.35);
             --gold: #f4c430;
-            --gold-glow: rgba(244, 196, 48, 0.4);
+            --gold-dark: #b8860b;
+            --gold-glow: rgba(244, 196, 48, 0.45);
             --rose: #ff4d6d;
-            --text: #f8fafc;
-            --muted: #94a3b8;
+            --rose-glow: rgba(255, 77, 109, 0.45);
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
         }
 
         * {
@@ -31,20 +36,24 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-dark);
+            color: var(--text-white);
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
         }
 
-        /* Twinkling Star Sky */
+        /* CELESTIAL BACKGROUND & TWINKLING STARS */
         .stars-layer {
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at bottom, #172130 0%, #07090e 100%);
+            background: radial-gradient(ellipse at bottom, #151d2c 0%, #07090e 100%);
             pointer-events: none;
             z-index: 0;
         }
@@ -64,45 +73,98 @@
             }
 
             100% {
-                opacity: 0.9;
-                transform: scale(1.2);
+                opacity: 0.95;
+                transform: scale(1.3);
             }
         }
 
-        /* Floating Music Button */
+        /* SHOOTING STAR INTERACTION */
+        .shooting-star {
+            position: absolute;
+            top: 15%;
+            left: -120px;
+            width: 140px;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 12px #fff;
+            transform: rotate(25deg);
+            opacity: 0;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .shooting-star.animate {
+            animation: shoot 9s infinite ease-in-out;
+        }
+
+        @keyframes shoot {
+            0% {
+                left: -100px;
+                top: 12%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            25% {
+                left: 110%;
+                top: 45%;
+                opacity: 0;
+            }
+
+            100% {
+                left: 110%;
+                top: 45%;
+                opacity: 0;
+            }
+        }
+
+        /* FLOATING AUDIO DOCK */
         .music-bar {
             position: fixed;
             top: 18px;
-            right: 20px;
+            right: 18px;
             z-index: 100;
+            display: flex;
+            gap: 10px;
         }
 
         .btn-audio {
-            background: rgba(15, 20, 34, 0.85);
+            background: rgba(15, 20, 34, 0.88);
             border: 1px solid var(--gold);
             color: var(--gold);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.78rem;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s;
         }
 
-        /* Container */
+        .btn-audio:hover {
+            background: var(--gold);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* MAIN CONTAINER */
         .main-wrap {
             position: relative;
             z-index: 10;
             max-width: 950px;
             margin: 0 auto;
-            padding: 40px 20px 80px 20px;
+            padding: 30px 18px 80px 18px;
         }
 
-        /* Hero Section */
+        /* HERO SECTION */
         .hero-section {
             text-align: center;
             padding: 30px 10px 40px 10px;
@@ -111,11 +173,13 @@
             align-items: center;
         }
 
+        /* 3-CLICK MOON FOR DEVELOPER STUDIO (CODE: 3132) */
         .moon-container {
+            position: relative;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            transition: transform 0.4s ease;
             user-select: none;
-            transition: transform 0.3s;
         }
 
         .moon-container:hover {
@@ -123,78 +187,223 @@
         }
 
         .moon {
-            width: 125px;
-            height: 125px;
+            width: 135px;
+            height: 135px;
             border-radius: 50%;
             background: radial-gradient(circle at 35% 35%, #fffdf0 0%, #fef3c7 40%, #fde68a 80%, #f59e0b 100%);
-            box-shadow: 0 0 50px 22px rgba(254, 240, 138, 0.4);
+            box-shadow: 0 0 65px 25px rgba(254, 240, 138, 0.42), inset -8px -8px 20px rgba(217, 119, 6, 0.35);
+            position: relative;
+        }
+
+        .moon-crater {
+            position: absolute;
+            background: rgba(217, 119, 6, 0.12);
+            border-radius: 50%;
+        }
+
+        .mc-1 {
+            width: 22px;
+            height: 22px;
+            top: 25px;
+            left: 35px;
+        }
+
+        .mc-2 {
+            width: 14px;
+            height: 14px;
+            top: 68px;
+            left: 62px;
+        }
+
+        .mc-3 {
+            width: 28px;
+            height: 28px;
+            top: 78px;
+            left: 32px;
         }
 
         .tag-badge {
             background: rgba(244, 196, 48, 0.12);
-            border: 1px solid rgba(244, 196, 48, 0.4);
+            border: 1px solid rgba(244, 196, 48, 0.45);
             color: var(--gold);
             font-size: 0.72rem;
             letter-spacing: 2px;
-            padding: 5px 14px;
+            padding: 5px 16px;
             border-radius: 20px;
             font-weight: 700;
             margin-bottom: 12px;
+            text-transform: uppercase;
         }
 
         .sub-head {
             font-size: 0.75rem;
             color: var(--rose);
             letter-spacing: 2px;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
             margin-bottom: 12px;
         }
 
         .main-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             line-height: 1.25;
             color: #fff;
             margin-bottom: 12px;
+            max-width: 820px;
         }
 
         .quote-line {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.8rem;
+            font-size: 1.95rem;
             color: #fde047;
+            margin-bottom: 25px;
+            text-shadow: 0 0 12px rgba(253, 224, 71, 0.35);
+        }
+
+        /* LIVE KARWA CHAUTH COUNTDOWN CLOCK */
+        .moon-countdown-card {
+            background: rgba(15, 20, 34, 0.75);
+            border: 1px solid rgba(244, 196, 48, 0.35);
+            border-radius: 40px;
+            padding: 12px 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             margin-bottom: 25px;
         }
 
-        /* Ritual Buttons */
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-num {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .timer-lbl {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-sep {
+            color: var(--rose);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* HUNGER-O-METER */
+        .hunger-meter-box {
+            width: 100%;
+            max-width: 620px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin: 15px auto 35px auto;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .hunger-label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: #111726;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 88%;
+            background: linear-gradient(90deg, #ff4d6d, #f4c430);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .hunger-status-text {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* RITUAL ACTIONS ROW */
         .ritual-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
             justify-content: center;
             margin-bottom: 45px;
         }
 
         .btn-action {
-            background: rgba(15, 20, 34, 0.85);
+            background: rgba(15, 20, 34, 0.88);
             border: 1px solid var(--gold);
             color: #fff;
-            padding: 10px 22px;
+            padding: 12px 24px;
             border-radius: 30px;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .btn-action:hover {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold), var(--rose));
             color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--gold-glow);
         }
 
-        /* Timeline */
+        /* TOGETHER COUNTER STRIP */
+        .together-strip {
+            background: linear-gradient(90deg, transparent, rgba(244, 196, 48, 0.1), transparent);
+            border-top: 1px solid rgba(244, 196, 48, 0.25);
+            border-bottom: 1px solid rgba(244, 196, 48, 0.25);
+            padding: 12px 0;
+            text-align: center;
+            margin: 20px 0 50px 0;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            width: 100%;
+        }
+
+        .together-strip span {
+            color: var(--gold);
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* TIMELINE SECTION */
         .timeline {
             position: relative;
-            margin: 30px 0 60px 0;
+            margin: 40px 0 70px 0;
         }
 
         .timeline::before {
@@ -211,7 +420,7 @@
         .chapter-card {
             display: flex;
             align-items: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             width: 100%;
         }
 
@@ -221,12 +430,12 @@
 
         .chapter-card:nth-child(even) .chap-content {
             text-align: right;
-            padding-right: 35px;
+            padding-right: 40px;
         }
 
         .chapter-card:nth-child(odd) .chap-content {
             text-align: left;
-            padding-left: 35px;
+            padding-left: 40px;
         }
 
         .chap-content {
@@ -234,32 +443,53 @@
         }
 
         .chap-tag {
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             letter-spacing: 1.5px;
             color: var(--rose);
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .chap-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #fff;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .chap-desc {
-            font-size: 0.84rem;
-            color: var(--muted);
-            line-height: 1.6;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 10px;
             white-space: pre-line;
         }
 
         .chap-quote {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             color: #fde047;
+            margin-bottom: 10px;
+        }
+
+        .mini-audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(244, 196, 48, 0.12);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mini-audio-btn:hover {
+            background: var(--gold);
+            color: #000;
         }
 
         .chap-media {
@@ -269,12 +499,12 @@
         }
 
         .media-frame {
-            width: 85%;
-            height: 230px;
-            border-radius: 12px;
+            width: 88%;
+            height: 250px;
+            border-radius: 14px;
             overflow: hidden;
-            border: 1px solid rgba(244, 196, 48, 0.3);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(244, 196, 48, 0.35);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
             background: #111726;
             position: relative;
         }
@@ -283,44 +513,101 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .media-frame:hover img {
+            transform: scale(1.05);
         }
 
         .media-caption {
             position: absolute;
             bottom: 8px;
             left: 10px;
-            background: rgba(0, 0, 0, 0.75);
-            padding: 3px 8px;
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 0.65rem;
             color: #cbd5e1;
+            backdrop-filter: blur(4px);
         }
 
-        /* Coupons Grid */
+        /* "OPEN WHEN..." ENVELOPES */
+        .open-when-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .envelopes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 25px;
+        }
+
+        .envelope-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 22px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .envelope-card:hover {
+            border-color: var(--rose);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--rose-glow);
+        }
+
+        .env-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .env-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .env-hint {
+            font-size: 0.72rem;
+            color: var(--gold);
+        }
+
+        /* SCRATCH CARDS / COUPONS OF CARE */
+        .coupons-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
         .coupons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+            gap: 16px;
             margin-top: 25px;
         }
 
         .coupon-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
             padding: 22px 14px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
 
         .coupon-card:hover {
-            border-color: var(--rose);
+            border-color: var(--gold);
             transform: translateY(-4px);
+            box-shadow: 0 10px 25px var(--gold-glow);
         }
 
         .coup-icon {
-            font-size: 30px;
+            font-size: 32px;
             margin-bottom: 8px;
         }
 
@@ -332,7 +619,7 @@
 
         .coup-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: #fff;
             margin: 6px 0 12px 0;
         }
@@ -341,58 +628,156 @@
             background: rgba(244, 196, 48, 0.15);
             border: 1px solid var(--gold);
             color: var(--gold);
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             font-weight: 700;
         }
 
-        /* The Letter */
-        .letter-container {
-            background: rgba(15, 20, 34, 0.85);
-            border: 1px solid rgba(244, 196, 48, 0.3);
+        /* WAX SEAL LETTER SECTION */
+        .letter-envelope-wrap {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .envelope-box {
+            width: 100%;
+            max-width: 680px;
+            background: #141b2b;
+            border: 2px solid var(--gold);
             border-radius: 16px;
-            padding: 35px 25px;
-            margin-top: 50px;
+            padding: 40px 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
             text-align: center;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .wax-seal {
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #e63946 0%, #9d0208 100%);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .envelope-box:hover .wax-seal {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .envelope-status {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* UNFOLDED LETTER (TYPEWRITER STYLE CAPABLE) */
+        .letter-content-sheet {
+            display: none;
+            width: 100%;
+            max-width: 740px;
+            background: rgba(15, 20, 34, 0.92);
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            padding: 40px 32px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+            text-align: left;
+            margin-top: 20px;
+            animation: unfold 0.8s ease forwards;
+        }
+
+        @keyframes unfold {
+            0% {
+                opacity: 0;
+                transform: scaleY(0.6);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scaleY(1);
+            }
         }
 
         .letter-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #fff;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .letter-body {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #e2e8f0;
-            line-height: 1.8;
-            max-width: 720px;
-            margin: 0 auto 20px auto;
-            text-align: left;
+            line-height: 1.85;
+            margin-bottom: 25px;
             white-space: pre-line;
         }
 
         .letter-sign {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: var(--rose);
             font-weight: 700;
             text-align: right;
         }
 
+        /* ACTION BUTTONS (MEMORY JAR & WHATSAPP HUG) */
+        .extra-actions-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 50px 0;
+        }
+
+        .btn-extra {
+            background: #111726;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-extra:hover {
+            border-color: #25d366;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+            color: #25d366;
+        }
+
         footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 50px;
             font-size: 0.75rem;
             color: #64748b;
         }
 
-        /* Modals */
+        /* CUSTOM GLOWING MODALS (ZERO SYSTEM ALERTS) */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -412,38 +797,41 @@
             border: 1px solid var(--gold);
             border-radius: 16px;
             width: 90%;
-            max-width: 420px;
-            padding: 26px;
+            max-width: 440px;
+            padding: 28px;
             text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px var(--gold-glow);
         }
 
         .modal-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--gold);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .modal-msg {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: #e2e8f0;
             line-height: 1.6;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            white-space: pre-line;
         }
 
         .btn-modal-close {
             background: var(--gold);
             color: #000;
             border: none;
-            padding: 9px 20px;
+            padding: 10px 24px;
             border-radius: 20px;
             font-weight: 700;
             cursor: pointer;
         }
 
+        /* VIRTUAL CHHALNI */
         .chhalni-box {
-            width: 250px;
-            height: 250px;
+            width: 260px;
+            height: 260px;
             border-radius: 50%;
             margin: 15px auto;
             border: 6px solid #b8860b;
@@ -451,6 +839,7 @@
             overflow: hidden;
             cursor: pointer;
             background: #000;
+            box-shadow: 0 0 25px var(--gold-glow);
         }
 
         .chhalni-mesh {
@@ -467,14 +856,14 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.4s;
+            transition: opacity 0.5s;
         }
 
-        /* FULL CMS STUDIO VAULT (3132) */
+        /* DEVELOPER STUDIO VAULT MODAL (CODE: 3132) */
         .vault-panel {
             position: fixed;
             inset: 0;
-            background: rgba(5, 8, 15, 0.96);
+            background: rgba(5, 8, 15, 0.97);
             z-index: 2000;
             display: none;
             overflow-y: auto;
@@ -494,7 +883,7 @@
             width: 100%;
             max-width: 680px;
             padding: 24px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .vault-header {
@@ -563,7 +952,7 @@
         }
 
         .btn-vault-save {
-            background: linear-gradient(135deg, var(--gold), #b8860b);
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             color: #000;
             border: none;
             padding: 12px 20px;
@@ -577,7 +966,7 @@
 
         @media (max-width: 768px) {
             .main-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
             .timeline::before {
@@ -596,7 +985,7 @@
                 width: 100%;
                 text-align: left;
                 padding: 0;
-                margin-bottom: 12px;
+                margin-bottom: 15px;
             }
 
             .chap-media {
@@ -605,6 +994,7 @@
 
             .media-frame {
                 width: 100%;
+                height: 210px;
             }
         }
     </style>
@@ -612,34 +1002,100 @@
 
 <body>
 
+    <!-- SKY STARS & SHOOTING STAR INTERACTION -->
     <div class="stars-layer" id="starsLayer"></div>
+    <div class="shooting-star animate" id="shootingStar" title="Tap to make a wish!" onclick="makeWish()"></div>
 
+    <!-- FLOATING AUDIO CONTROL DOCK -->
     <div class="music-bar">
-        <button class="btn-audio" onclick="toggleAudio()">
-            <span id="audioIcon">🎵</span> <span id="audioText">Play Song</span>
+        <button class="btn-audio" onclick="toggleSong()">
+            <span id="songIcon">🎵</span> <span id="songText">Play Song</span>
+        </button>
+        <button class="btn-audio" onclick="toggleVoiceNote()" style="border-color: var(--rose); color: var(--rose);">
+            <span id="vnIcon">🎙️</span> <span>Rudhar's Audio</span>
         </button>
     </div>
     <audio id="bgSong" loop></audio>
+    <audio id="bgVoiceNote"></audio>
+    <audio id="miniPlayer"></audio>
 
+    <!-- MAIN SCROLLABLE WRAPPER -->
     <div class="main-wrap">
+
+        <!-- HERO SECTION -->
         <section class="hero-section">
-            <!-- 3 Quick Taps on the Moon triggers Passcode 3132 -->
-            <div class="moon-container" onclick="handleMoonClick()">
-                <div class="moon"></div>
+            <!-- 3 Taps on Moon triggers Developer Studio Vault (3132) -->
+            <div class="moon-container" title="Click 3 times to open Studio Vault" onclick="handleMoonClick()">
+                <div class="moon">
+                    <div class="moon-crater mc-1"></div>
+                    <div class="moon-crater mc-2"></div>
+                    <div class="moon-crater mc-3"></div>
+                </div>
             </div>
 
-            <div class="tag-badge">KARWA CHAUTH 2026</div>
-            <div class="sub-head">Two Years of Infinite Memories • Special Edition</div>
+            <div class="tag-badge">KARWA CHAUTH 2026 • SPECIAL EDITION</div>
+            <div class="sub-head">Two Years of Infinite Memories</div>
             <h1 class="main-title">Under The Same Moon, For The Same Girl.</h1>
             <div class="quote-line">"Tu hai toh mujhe phir aur kya chahiye..."</div>
 
+            <!-- EXACT KARWA CHAUTH COUNTDOWN CLOCK (29 OCT 2026, 8:15 PM) -->
+            <div class="moon-countdown-card">
+                <div class="timer-unit">
+                    <span class="timer-num" id="cdDays">00</span>
+                    <span class="timer-lbl">Days</span>
+                </div>
+                <span class="timer-sep">:</span>
+                <div class="timer-unit">
+                    <span class="timer-num" id="cdHours">00</span>
+                    <span class="timer-lbl">Hours</span>
+                </div>
+                <span class="timer-sep">:</span>
+                <div class="timer-unit">
+                    <span class="timer-num" id="cdMins">00</span>
+                    <span class="timer-lbl">Mins</span>
+                </div>
+                <span class="timer-sep">:</span>
+                <div class="timer-unit">
+                    <span class="timer-num" id="cdSecs">00</span>
+                    <span class="timer-lbl">Secs</span>
+                </div>
+            </div>
+
+            <!-- HUNGER-O-METER -->
+            <div class="hunger-meter-box">
+                <div class="hunger-label-row">
+                    <span>🌙 Vrat Progress: Hunger-o-Meter</span>
+                    <span id="hungerPercent">88% Complete</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="hungerBar"></div>
+                </div>
+                <div class="hunger-status-text" id="hungerText">
+                    "Shaam dhal rahi hai... Bas thodi der aur, hero! Chand aane hi wala hai 💪❤️"
+                </div>
+            </div>
+
+            <!-- RITUAL BUTTONS -->
             <div class="ritual-actions">
-                <button class="btn-action" onclick="openChhalni()">🪞 Virtual Chhalni</button>
-                <button class="btn-action" onclick="openThali()">🪔 Pehla Ghoont</button>
+                <button class="btn-action" onclick="openChhalni()">
+                    <span>🪞</span> Virtual Chhalni (See The Moon)
+                </button>
+                <button class="btn-action" onclick="openThali()">
+                    <span>🪔</span> Pehla Ghoont (Break Fast)
+                </button>
+                <button class="btn-action" onclick="triggerMoonriseUnlock()" style="border-color: var(--rose);">
+                    <span>🌕</span> Chand Nikal Aaya?
+                </button>
+            </div>
+
+            <!-- LIVE TOGETHER COUNTER -->
+            <div class="together-strip">
+                Hum pichle <span id="daysTogether">730</span> Din, <span id="hoursTogether">17,520</span> Ghante aur
+                <span id="minsTogether">1,051,200</span> Minutes se ek doosre ki taaqat hain.
             </div>
         </section>
 
-        <!-- TIMELINE -->
+        <!-- MEMORY TIMELINE (CHAPTERS 1 TO 5) -->
         <section class="timeline">
             <!-- CHAPTER 01 -->
             <div class="chapter-card">
@@ -650,12 +1106,14 @@
                         tha ki yahi wo ladki hai jiske sath chalna hai. Puraane chats, late-night talks aur wo pehla
                         haan.</p>
                     <div class="chap-quote" id="cQuote1">"Jahan se hum do se 'hum' bane..."</div>
+                    <button class="mini-audio-btn" onclick="playMiniVoice('audio/vn_chap1.mp3')">🎙️ Listen to
+                        Memory</button>
                 </div>
                 <div class="chap-media">
                     <div class="media-frame">
-                        <img id="img1"
-                            src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=700&q=80"
-                            alt="Proposal">
+                        <img id="img1" src="images/chap1.jpg"
+                            onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=700&q=80'"
+                            alt="The Proposal">
                         <div class="media-caption" id="cCap1">📍 The First 'I Love You'</div>
                     </div>
                 </div>
@@ -670,13 +1128,15 @@
                         doosre ki fikar. Us din jab tune meri care ki thi, tab dil ne pukara tha: I came with a
                         girlfriend, but I returned with a wife.</p>
                     <div class="chap-quote" id="cQuote2">"I came with a girlfriend, but I returned with a wife."</div>
+                    <button class="mini-audio-btn" onclick="playMiniVoice('audio/vn_chap2.mp3')">🎙️ Listen to
+                        Memory</button>
                 </div>
                 <div class="chap-media">
                     <div class="media-frame">
-                        <img id="img2"
-                            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=700&q=80"
+                        <img id="img2" src="images/chap2.jpg"
+                            onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=700&q=80'"
                             alt="Youth Parliament">
-                        <div class="media-caption" id="cCap2">📍 Youth Parliament</div>
+                        <div class="media-caption" id="cCap2">📍 Youth Parliament • First Official Photo</div>
                     </div>
                 </div>
             </div>
@@ -686,17 +1146,19 @@
                 <div class="chap-content">
                     <div class="chap-tag" id="cTag3">CHAPTER 03 • THE SECRET DATES</div>
                     <h2 class="chap-title" id="cTitle3">Oberoi Cafe Diaries</h2>
-                    <p class="chap-desc" id="cDesc3">Chori-chhupe milne ka nasha, coffee ke ghoont aur ghanton tak waqt
-                        ka thehar jana. Pichli baar main scrapbook bhool gaya tha, par un lamhon ka har panna dil par
-                        chhap gaya tha.</p>
+                    <p class="chap-desc">Chori-chhupe milne ka nasha, coffee ke ghoont aur ghanton tak waqt ka thehar
+                        jana. Pichli baar main scrapbook bhool gaya tha, par un lamhon ka har panna dil par chhap gaya
+                        tha.</p>
                     <div class="chap-quote" id="cQuote3">"Coffee thandi ho gayi, par baatein nahi..."</div>
+                    <button class="mini-audio-btn" onclick="playMiniVoice('audio/vn_chap3.mp3')">🎙️ Listen to
+                        Memory</button>
                 </div>
                 <div class="chap-media">
                     <div class="media-frame">
-                        <img id="img3"
-                            src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=700&q=80"
-                            alt="Cafe">
-                        <div class="media-caption" id="cCap3">📍 Oberoi Cafe Corner</div>
+                        <img id="img3" src="images/chap3.jpg"
+                            onerror="this.src='https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=700&q=80'"
+                            alt="Oberoi Cafe">
+                        <div class="media-caption" id="cCap3">📍 Oberoi Cafe Table Corner</div>
                     </div>
                 </div>
             </div>
@@ -706,16 +1168,18 @@
                 <div class="chap-content">
                     <div class="chap-tag" id="cTag4">CHAPTER 04 • BEYOND CAMERAS</div>
                     <h2 class="chap-title" id="cTitle4">The Car Ride & Quiet Vows</h2>
-                    <p class="chap-desc" id="cDesc4">Kuch lamhon ki tasveerein nahi hoti, wo bas rooh mein chhap jaate
-                        hain. Farewell ke wo din aur bina kisi parwah ke sirf tere liye gaadi mod kar chale aana.</p>
+                    <p class="chap-desc">Kuch lamhon ki tasveerein nahi hoti, wo bas rooh mein chhap jaate hain.
+                        Farewell ke wo din aur bina kisi parwah ke sirf tere liye gaadi mod kar chale aana.</p>
                     <div class="chap-quote" id="cQuote4">"Tasveer nahi hai, par ehsaas zinda hai."</div>
+                    <button class="mini-audio-btn" onclick="playMiniVoice('audio/vn_chap4.mp3')">🎙️ Listen to
+                        Memory</button>
                 </div>
                 <div class="chap-media">
                     <div class="media-frame">
-                        <img id="img4"
-                            src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=700&q=80"
+                        <img id="img4" src="images/chap4.jpg"
+                            onerror="this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=700&q=80'"
                             alt="Car Ride">
-                        <div class="media-caption" id="cCap4">📍 That Empty Road Drive</div>
+                        <div class="media-caption" id="cCap4">📍 Farewell & That Empty Road Drive</div>
                     </div>
                 </div>
             </div>
@@ -725,49 +1189,87 @@
                 <div class="chap-content">
                     <div class="chap-tag" id="cTag5">CHAPTER 05 • SACRED THREADS</div>
                     <h2 class="chap-title" id="cTitle5">The Red Bangles & Saavan Vow</h2>
-                    <p class="chap-desc" id="cDesc5">Humara rishta sirf baaton ka nahi, vishwas aur bhakti ka hai.
-                        Saavan ke mahine mein ek sath Shiv Puran sunna aur wo laal choodiyan jo tune pehni theen.</p>
+                    <p class="chap-desc">Humara rishta sirf baaton ka nahi, vishwas aur bhakti ka hai. Saavan ke mahine
+                        mein ek sath Shiv Puran sunna aur wo laal choodiyan jo tune pehni theen.</p>
                     <div class="chap-quote" id="cQuote5">"Kangan tere, duaayein meri..."</div>
+                    <button class="mini-audio-btn" onclick="playMiniVoice('audio/vn_chap5.mp3')">🎙️ Listen to
+                        Memory</button>
                 </div>
                 <div class="chap-media">
                     <div class="media-frame">
-                        <img id="img5"
-                            src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=80"
+                        <img id="img5" src="images/chap5.jpg"
+                            onerror="this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=80'"
                             alt="Saavan">
-                        <div class="media-caption" id="cCap5">📍 Sacred Bangles</div>
+                        <div class="media-caption" id="cCap5">📍 Saavan • The Sacred Bangles</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- COUPONS -->
-        <section>
-            <div class="sub-head" style="text-align: center;">SPECIAL PRIVILEGES</div>
-            <h2 class="main-title" style="text-align: center; font-size: 2rem;">Coupons of Care</h2>
+        <!-- "OPEN WHEN..." ENVELOPES -->
+        <section class="open-when-section">
+            <div class="sub-head">SPECIAL LETTERS</div>
+            <h2 class="main-title" style="font-size: 2.2rem; margin: 0 auto;">"Open When..." Envelopes</h2>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;">Whenever you need me, tap your mood</p>
+
+            <div class="envelopes-grid">
+                <div class="envelope-card"
+                    onclick="openEnvelope('Open When You Miss Me 🥺', 'Aankhein band kar aur sochna ki main tere bilkul paas baitha hoon, tera haath thaame hue. Fasle sirf screen aur shehron ke hain jaan, meri rooh hamesha tere hi paas hai. Call kar mujhe turant!')">
+                    <div class="env-icon">💌</div>
+                    <div class="env-title">When You Miss Me</div>
+                    <div class="env-hint">Tap to open note</div>
+                </div>
+                <div class="envelope-card"
+                    onclick="openEnvelope('Open When You Are Hungry In Fast 🍕', 'Mujhe pata hai mera petoo baccha bhookha hai! Bas thodi si der aur... jaise hi chaand niklega na, main tere liye sabse tasty treats aur khana lekar aaunga. Tab tak mera sar kha sakti hai!')">
+                    <div class="env-icon">🍫</div>
+                    <div class="env-title">When You\'re Hungry</div>
+                    <div class="env-hint">Tap to open note</div>
+                </div>
+                <div class="envelope-card"
+                    onclick="openEnvelope('Open When You Are Angry With Me 😤', 'I am so, so sorry! Chahe galti kisi ki bhi ho, mera maksad tujhe rulana ya gussa dilana kabhi nahi hota. Ek gehri saans le, aur yaad kar hum dono ne kitni mushkilein paar ki hain. Chal ab ek smile de!')">
+                    <div class="env-icon">🥀</div>
+                    <div class="env-title">When You\'re Angry</div>
+                    <div class="env-hint">Tap to open note</div>
+                </div>
+                <div class="envelope-card"
+                    onclick="openEnvelope('Open When You Doubt The Future 💍', 'Suno Akshra, B.Tech khatam karke settle hona ho ya aage ki zindagi jeena ho, mera har ek aane wala kal sirf aur sirf tere sath planned hai. Koi shak mat rakhna, tu meri manzil hai.')">
+                    <div class="env-icon">🕊️</div>
+                    <div class="env-title">When You Doubt Us</div>
+                    <div class="env-hint">Tap to open note</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COUPONS OF CARE -->
+        <section class="coupons-section">
+            <div class="sub-head">SPECIAL PRIVILEGES</div>
+            <h2 class="main-title" style="font-size: 2.2rem; margin: 0 auto;">Coupons of Care</h2>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;">Redeem anytime without expiry</p>
+
             <div class="coupons-grid">
                 <div class="coupon-card"
-                    onclick="openCoupon('Drama Immunity Pass', 'Iss coupon se aapko pure hafte kisi bhi gusse ya nautanki par unconditional maafi milti hai! Main bina argue kiye sirf sorry bolunga.')">
+                    onclick="claimCoupon('#01', 'Drama Immunity Pass', 'Iss coupon se aapko pure hafte kisi bhi gusse ya nautanki par 100% unconditional maafi milti hai! Main bina argue kiye sirf sorry bolunga.')">
                     <div class="coup-icon">🎟️</div>
                     <div class="coup-num">#01</div>
                     <div class="coup-title">Drama Immunity</div>
                     <span class="coup-btn">Tap to Redeem</span>
                 </div>
                 <div class="coupon-card"
-                    onclick="openCoupon('Midnight Rant Voucher', 'Chahe raat ke 3 baje hon ya din ke 12, bina kisi lecture ke sirf chupchap aapki saari baatein sununga.')">
+                    onclick="claimCoupon('#02', 'Midnight Rant Voucher', 'Chahe raat ke 3 baje hon ya din ke 12, bina kisi judgement ya lecture ke sirf chupchap aapki saari baatein aur shikayatein sununga.')">
                     <div class="coup-icon">🛋️</div>
                     <div class="coup-num">#02</div>
                     <div class="coup-title">Midnight Rant</div>
                     <span class="coup-btn">Tap to Redeem</span>
                 </div>
                 <div class="coupon-card"
-                    onclick="openCoupon('Custom Art Order', 'Aapka Computer Engineer aapke liye custom art ya code create karega on priority!')">
+                    onclick="claimCoupon('#03', 'Custom Art / Code Gift', 'Order Confirmed! Aapka Computer Engineer aapke liye custom software, presentation, notes ya handmade digital art banayega on demand.')">
                     <div class="coup-icon">🎨</div>
                     <div class="coup-num">#03</div>
                     <div class="coup-title">Custom Art</div>
                     <span class="coup-btn">Tap to Redeem</span>
                 </div>
                 <div class="coupon-card"
-                    onclick="openCoupon('Warmth Call Token', 'Chahe main kitna bhi busy kyun na hoon, sab chhod kar sirf aapko sunna meri duty hogi.')">
+                    onclick="claimCoupon('#04', 'Warmth & Pampering Call', 'Instant Priority Token! Chahe main kitna bhi busy kyun na hoon, sab chhod kar sirf aapko sunna aur hasaana meri duty hogi.')">
                     <div class="coup-icon">🤗</div>
                     <div class="coup-num">#04</div>
                     <div class="coup-title">Warmth Call</div>
@@ -776,61 +1278,88 @@
             </div>
         </section>
 
-        <!-- LETTER -->
-        <div class="letter-container">
-            <div class="sub-head">THE KARWA CHAUTH VOW</div>
-            <h2 class="letter-title" id="letterHead">Meri Sabse Pyaari Akshra,</h2>
-            <div class="letter-body" id="letterContent">
-                Mujhe pata hai pichle kuch din hum dono ke liye aasan nahi the. Galtiyan hui, gusse nikle, aur darr bhi
-                laga ki kahin sab bikhar na jaye. Par jab toofan thamta hai na, tab samajh aata hai ki kon sa rishta
-                kitna gehra hai.
-
-                Tune pucha tha na ki "mere liye kya gift laaoge, tu hai toh aur kya chahiye?" Sach yahi hai Akshra, mere
-                paas koi materialistic cheez dene ke liye nahi hai, par ek aisa dil hai jo sirf tere liye dhadakta hai.
-
-                Ye do saal ka safar aasan nahi raha, par is safar mein maine ek cheez seekhi: Chahe kitni bhi doori ho,
-                chahe kitne bhi pehre hon, meri har dua sirf tere sath likhi hai.
+        <!-- WAX SEAL KARWA CHAUTH LETTER -->
+        <div class="letter-envelope-wrap">
+            <div class="envelope-box" id="waxEnvelope" onclick="breakWaxSeal()">
+                <div class="wax-seal">R ❤️ A</div>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 6px;">The Sacred
+                    Karwa Chauth Vow</h3>
+                <p class="envelope-status" id="waxStatus">Tap the Wax Seal to Break &amp; Unfold Letter</p>
             </div>
-            <p class="quote-line" style="font-size: 1.5rem; text-align: center; margin: 15px 0;">"Fasting is done. Now
-                and forever, you belong to my soul."</p>
-            <div class="letter-sign" id="letterSign">— Hamesha Tera, Rudhar ❤️</div>
+
+            <div class="letter-content-sheet" id="unfoldedLetter">
+                <h2 class="letter-title" id="letterHead">Meri Sabse Pyaari Akshra,</h2>
+                <div class="letter-body" id="letterContent">
+                    Mujhe pata hai pichle kuch din hum dono ke liye aasan nahi the. Galtiyan hui, gusse nikle, aur darr
+                    bhi laga ki kahin sab bikhar na jaye. Par jab toofan thamta hai na, tab samajh aata hai ki kon sa
+                    rishta kitna gehra hai.
+
+                    Tune pucha tha na ki "mere liye kya gift laaoge, tu hai toh aur kya chahiye?" Sach yahi hai Akshra,
+                    mere paas koi materialistic cheez dene ke liye nahi hai, par ek aisa dil hai jo sirf tere liye
+                    dhadakta hai.
+
+                    Ye do saal ka safar aasan nahi raha, par is safar mein maine ek cheez seekhi: Chahe kitni bhi doori
+                    ho, chahe kitne bhi pehre hon, meri har dua sirf tere sath likhi hai.
+                </div>
+                <p class="quote-line" style="font-size: 1.6rem; text-align: center; margin: 15px 0;">"Fasting is done.
+                    Now and forever, you belong to my soul."</p>
+                <div class="letter-sign" id="letterSign">— Hamesha Tera, Rudhar ❤️</div>
+            </div>
         </div>
 
+        <!-- MEMORY JAR & WHATSAPP HUG -->
+        <div class="extra-actions-bar">
+            <button class="btn-extra" onclick="pickMemoryJar()">
+                <span>🏺</span> Pull a Memory Jar Slip
+            </button>
+            <a class="btn-extra" id="waHugBtn"
+                href="https://wa.me/919906000000?text=Rudhar,%20I%20am%20sending%20you%20a%20tight%20hug%20from%20our%20Karwa%20Chauth%20website!%20❤️"
+                target="_blank">
+                <span>💬</span> Send Rudhar a WhatsApp Hug
+            </a>
+        </div>
+
+        <!-- FOOTER -->
         <footer>
-            <p style="color: var(--rose);">Next Grand Chapter: 2-Year Milestone • The Story Continues</p>
-            <p>Handcrafted with code &amp; love by your Computer Engineer.</p>
+            <p style="color: var(--rose); margin-bottom: 4px;">Next Grand Chapter: 2-Year Milestone • The Story
+                Continues</p>
+            <p>Handcrafted with code &amp; infinite love by your Computer Engineer.</p>
         </footer>
+
     </div>
 
-    <!-- POPUP MODAL -->
-    <div class="modal-overlay" id="commonModal">
+    <!-- CUSTOM GLOWING MODAL (REPLACES BROWSER ALERT) -->
+    <div class="modal-overlay" id="customModal">
         <div class="modal-card">
-            <div style="font-size: 36px; margin-bottom: 8px;" id="mIcon">🎉</div>
+            <div style="font-size: 40px; margin-bottom: 10px;" id="mIcon">🎉</div>
             <div class="modal-title" id="mTitle">Activated!</div>
             <div class="modal-msg" id="mMsg">Details</div>
-            <button class="btn-modal-close" onclick="closeCommonModal()">Accept Kiya ❤️</button>
+            <button class="btn-modal-close" onclick="closeModal()">Pyaar Se Accept Kiya ❤️</button>
         </div>
     </div>
 
-    <!-- CHHALNI MODAL -->
+    <!-- VIRTUAL CHHALNI MODAL -->
     <div class="modal-overlay" id="chhalniModal">
         <div class="modal-card">
-            <div class="modal-title">Virtual Chhalni</div>
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 10px;">Tap circle to reveal real moon</div>
+            <div class="modal-title">Look Through The Chhalni</div>
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">Tap the sieve to reveal your real moon
+            </div>
+
             <div class="chhalni-box" onclick="revealMoon()">
                 <div class="chhalni-mesh"></div>
                 <img class="chhalni-target-img" id="chhalniImg"
                     src="https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&w=600&q=80"
-                    alt="Moon">
+                    alt="The Moon">
             </div>
-            <div id="chhalniCap" style="font-size: 0.85rem; color: var(--gold); font-weight: 600;">Peeping the Moon...
-            </div>
+
+            <div id="chhalniCap" style="font-size: 0.85rem; color: var(--gold); font-weight: 600;">Peeping the Karwa
+                Chauth Moon...</div>
             <button class="btn-modal-close" style="margin-top: 15px;"
-                onclick="document.getElementById('chhalniModal').classList.remove('active')">Close</button>
+                onclick="document.getElementById('chhalniModal').classList.remove('active')">Done Viewing</button>
         </div>
     </div>
 
-    <!-- DEVELOPER CMS VAULT (PASSCODE 3132) -->
+    <!-- DEVELOPER STUDIO CMS VAULT (PASSCODE: 3132) -->
     <div class="vault-panel" id="vaultPanel">
         <div class="vault-box">
             <div class="vault-header">
@@ -838,281 +1367,306 @@
                 <button onclick="document.getElementById('vaultPanel').classList.remove('open')"
                     style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer;">✕</button>
             </div>
+            <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 15px;">
+                Yahan se photos direct choose karo aur personal messages edit karke save kar do. Changes turant live ho
+                jayenge!
+            </p>
 
-            <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 15px;">
-                Yahan se photos apne laptop/phone se direct choose karo aur personal messages edit karke save kar do.
-                Changes turant live ho jayenge!
-            </div>
-
-            <!-- AUDIO -->
+            <!-- AUDIO ASSETS -->
             <div class="v-field">
-                <label>Audio Link (Direct MP3 URL)</label>
-                <input type="text" id="vAudio" placeholder="https://.../song.mp3">
+                <label>Romantic Background Song (Local Path or URL)</label>
+                <input type="text" id="vAudio" placeholder="audio/bg_song.mp3 or web URL">
+            </div>
+            <div class="v-field">
+                <label>Your Personal Voice Note (Local Path or URL)</label>
+                <input type="text" id="vVoiceNote" placeholder="audio/voice_note.mp3 or web URL">
             </div>
 
             <!-- CHHALNI PHOTO -->
             <div class="v-field">
                 <label>Chhalni Photo (Upload your smiling photo)</label>
-                <input type="file" accept="image/*" onchange="uploadPhoto(this, 'v_chhalni')">
+                <input type="file" accept="image/*" onchange="uploadBase64(this, 'v_chhalni')">
             </div>
 
-            <!-- CHAPTER 01 -->
+            <!-- CHAPTERS EDIT -->
             <div class="vault-section-title">Chapter 01: The Beginning</div>
-            <div class="v-field">
-                <label>Title</label>
-                <input type="text" id="vTitle1">
-            </div>
-            <div class="v-field">
-                <label>Caption Tag</label>
-                <input type="text" id="vCap1">
-            </div>
-            <div class="v-field">
-                <label>Personal Story / Note</label>
-                <textarea id="vDesc1"></textarea>
-            </div>
-            <div class="v-field">
-                <label>Romantic Quote</label>
-                <input type="text" id="vQuote1">
-            </div>
-            <div class="v-field">
-                <label>Choose Photo from Device</label>
-                <input type="file" accept="image/*" onchange="uploadPhoto(this, 'v_img1')">
-            </div>
+            <div class="v-field"><label>Title</label><input type="text" id="vTitle1"></div>
+            <div class="v-field"><label>Caption Tag</label><input type="text" id="vCap1"></div>
+            <div class="v-field"><label>Story Note</label><textarea id="vDesc1"></textarea></div>
+            <div class="v-field"><label>Quote</label><input type="text" id="vQuote1"></div>
+            <div class="v-field"><label>Replace Photo from Device</label><input type="file" accept="image/*"
+                    onchange="uploadBase64(this, 'v_img1')"></div>
 
-            <!-- CHAPTER 02 -->
             <div class="vault-section-title">Chapter 02: The Realization</div>
-            <div class="v-field">
-                <label>Title</label>
-                <input type="text" id="vTitle2">
-            </div>
-            <div class="v-field">
-                <label>Caption Tag</label>
-                <input type="text" id="vCap2">
-            </div>
-            <div class="v-field">
-                <label>Personal Story / Note</label>
-                <textarea id="vDesc2"></textarea>
-            </div>
-            <div class="v-field">
-                <label>Romantic Quote</label>
-                <input type="text" id="vQuote2">
-            </div>
-            <div class="v-field">
-                <label>Choose Photo from Device</label>
-                <input type="file" accept="image/*" onchange="uploadPhoto(this, 'v_img2')">
-            </div>
+            <div class="v-field"><label>Title</label><input type="text" id="vTitle2"></div>
+            <div class="v-field"><label>Caption Tag</label><input type="text" id="vCap2"></div>
+            <div class="v-field"><label>Story Note</label><textarea id="vDesc2"></textarea></div>
+            <div class="v-field"><label>Quote</label><input type="text" id="vQuote2"></div>
+            <div class="v-field"><label>Replace Photo from Device</label><input type="file" accept="image/*"
+                    onchange="uploadBase64(this, 'v_img2')"></div>
 
-            <!-- CHAPTER 03 -->
             <div class="vault-section-title">Chapter 03: Oberoi Cafe Diaries</div>
-            <div class="v-field">
-                <label>Title</label>
-                <input type="text" id="vTitle3">
-            </div>
-            <div class="v-field">
-                <label>Caption Tag</label>
-                <input type="text" id="vCap3">
-            </div>
-            <div class="v-field">
-                <label>Personal Story / Note</label>
-                <textarea id="vDesc3"></textarea>
-            </div>
-            <div class="v-field">
-                <label>Romantic Quote</label>
-                <input type="text" id="vQuote3">
-            </div>
-            <div class="v-field">
-                <label>Choose Photo from Device</label>
-                <input type="file" accept="image/*" onchange="uploadPhoto(this, 'v_img3')">
-            </div>
+            <div class="v-field"><label>Title</label><input type="text" id="vTitle3"></div>
+            <div class="v-field"><label>Caption Tag</label><input type="text" id="vCap3"></div>
+            <div class="v-field"><label>Story Note</label><textarea id="vDesc3"></textarea></div>
+            <div class="v-field"><label>Quote</label><input type="text" id="vQuote3"></div>
+            <div class="v-field"><label>Replace Photo from Device</label><input type="file" accept="image/*"
+                    onchange="uploadBase64(this, 'v_img3')"></div>
 
-            <!-- CHAPTER 04 -->
             <div class="vault-section-title">Chapter 04: The Car Ride</div>
-            <div class="v-field">
-                <label>Title</label>
-                <input type="text" id="vTitle4">
-            </div>
-            <div class="v-field">
-                <label>Caption Tag</label>
-                <input type="text" id="vCap4">
-            </div>
-            <div class="v-field">
-                <label>Personal Story / Note</label>
-                <textarea id="vDesc4"></textarea>
-            </div>
-            <div class="v-field">
-                <label>Romantic Quote</label>
-                <input type="text" id="vQuote4">
-            </div>
-            <div class="v-field">
-                <label>Choose Photo from Device</label>
-                <input type="file" accept="image/*" onchange="uploadPhoto(this, 'v_img4')">
-            </div>
+            <div class="v-field"><label>Title</label><input type="text" id="vTitle4"></div>
+            <div class="v-field"><label>Caption Tag</label><input type="text" id="vCap4"></div>
+            <div class="v-field"><label>Story Note</label><textarea id="vDesc4"></textarea></div>
+            <div class="v-field"><label>Quote</label><input type="text" id="vQuote4"></div>
+            <div class="v-field"><label>Replace Photo from Device</label><input type="file" accept="image/*"
+                    onchange="uploadBase64(this, 'v_img4')"></div>
 
-            <!-- CHAPTER 05 -->
-            <div class="vault-section-title">Chapter 05: Sacred Bangles & Saavan</div>
-            <div class="v-field">
-                <label>Title</label>
-                <input type="text" id="vTitle5">
-            </div>
-            <div class="v-field">
-                <label>Caption Tag</label>
-                <input type="text" id="vCap5">
-            </div>
-            <div class="v-field">
-                <label>Personal Story / Note</label>
-                <textarea id="vDesc5"></textarea>
-            </div>
-            <div class="v-field">
-                <label>Romantic Quote</label>
-                <input type="text" id="vQuote5">
-            </div>
-            <div class="v-field">
-                <label>Choose Photo from Device</label>
-                <input type="file" accept="image/*" onchange="uploadPhoto(this, 'v_img5')">
-            </div>
+            <div class="vault-section-title">Chapter 05: Sacred Bangles &amp; Saavan</div>
+            <div class="v-field"><label>Title</label><input type="text" id="vTitle5"></div>
+            <div class="v-field"><label>Caption Tag</label><input type="text" id="vCap5"></div>
+            <div class="v-field"><label>Story Note</label><textarea id="vDesc5"></textarea></div>
+            <div class="v-field"><label>Quote</label><input type="text" id="vQuote5"></div>
+            <div class="v-field"><label>Replace Photo from Device</label><input type="file" accept="image/*"
+                    onchange="uploadBase64(this, 'v_img5')"></div>
 
-            <!-- THE LETTER -->
-            <div class="vault-section-title">The Karwa Chauth Letter</div>
-            <div class="v-field">
-                <label>Letter Heading</label>
-                <input type="text" id="vLetterHead">
-            </div>
-            <div class="v-field">
-                <label>Letter Paragraphs</label>
-                <textarea id="vLetterContent" style="min-height: 100px;"></textarea>
-            </div>
-            <div class="v-field">
-                <label>Letter Signature</label>
-                <input type="text" id="vLetterSign">
-            </div>
+            <!-- LETTER EDIT -->
+            <div class="vault-section-title">The Karwa Chauth Vow Letter</div>
+            <div class="v-field"><label>Letter Heading</label><input type="text" id="vLetterHead"></div>
+            <div class="v-field"><label>Letter Paragraphs</label><textarea id="vLetterContent"
+                    style="min-height: 100px;"></textarea></div>
+            <div class="v-field"><label>Letter Signature</label><input type="text" id="vLetterSign"></div>
 
             <button class="btn-vault-save" onclick="saveAllVaultData()">Save All Memories &amp; Apply</button>
         </div>
     </div>
 
     <script>
-        // Stars
-        const sLayer = document.getElementById('starsLayer');
-        for (let i = 0; i < 75; i++) {
+        // 1. STARS SKY BACKGROUND
+        const starsLayer = document.getElementById('starsLayer');
+        for (let i = 0; i < 85; i++) {
             const s = document.createElement('div');
             s.className = 'star';
             s.style.width = Math.random() * 3 + 1 + 'px';
             s.style.height = s.style.width;
             s.style.top = Math.random() * 100 + '%';
             s.style.left = Math.random() * 100 + '%';
-            sLayer.appendChild(s);
+            s.style.animationDelay = Math.random() * 3 + 's';
+            starsLayer.appendChild(s);
         }
 
-        // Audio Control
-        let isPlaying = false;
-        const bgSong = document.getElementById('bgSong');
-        const defaultAudio = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-ambient-111425.mp3";
+        // 2. HARDCODED KARWA CHAUTH COUNTDOWN (29 OCT 2026, 8:15 PM IST)
+        const targetMoonrise = new Date("2026-10-29T20:15:00+05:30").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetMoonrise - now;
 
-        function loadAllSavedData() {
-            // Audio
-            bgSong.src = localStorage.getItem('v_audio') || defaultAudio;
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // Images
-            if (localStorage.getItem('v_img1')) document.getElementById('img1').src = localStorage.getItem('v_img1');
-            if (localStorage.getItem('v_img2')) document.getElementById('img2').src = localStorage.getItem('v_img2');
-            if (localStorage.getItem('v_img3')) document.getElementById('img3').src = localStorage.getItem('v_img3');
-            if (localStorage.getItem('v_img4')) document.getElementById('img4').src = localStorage.getItem('v_img4');
-            if (localStorage.getItem('v_img5')) document.getElementById('img5').src = localStorage.getItem('v_img5');
-
-            // Chapters Text
-            for (let i = 1; i <= 5; i++) {
-                if (localStorage.getItem('v_title' + i)) document.getElementById('cTitle' + i).innerText = localStorage.getItem('v_title' + i);
-                if (localStorage.getItem('v_cap' + i)) document.getElementById('cCap' + i).innerText = localStorage.getItem('v_cap' + i);
-                if (localStorage.getItem('v_desc' + i)) document.getElementById('cDesc' + i).innerText = localStorage.getItem('v_desc' + i);
-                if (localStorage.getItem('v_quote' + i)) document.getElementById('cQuote' + i).innerText = localStorage.getItem('v_quote' + i);
-            }
-
-            // Letter
-            if (localStorage.getItem('v_letter_head')) document.getElementById('letterHead').innerText = localStorage.getItem('v_letter_head');
-            if (localStorage.getItem('v_letter_content')) document.getElementById('letterContent').innerText = localStorage.getItem('v_letter_content');
-            if (localStorage.getItem('v_letter_sign')) document.getElementById('letterSign').innerText = localStorage.getItem('v_letter_sign');
-        }
-        loadAllSavedData();
-
-        function toggleAudio() {
-            if (isPlaying) {
-                bgSong.pause();
-                isPlaying = false;
-                document.getElementById('audioText').innerText = "Play Song";
-                document.getElementById('audioIcon').innerText = "🎵";
+                document.getElementById('cdDays').innerText = d < 10 ? '0' + d : d;
+                document.getElementById('cdHours').innerText = h < 10 ? '0' + h : h;
+                document.getElementById('cdMins').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('cdSecs').innerText = s < 10 ? '0' + s : s;
             } else {
+                document.getElementById('cdDays').innerText = "00";
+                document.getElementById('cdHours').innerText = "00";
+                document.getElementById('cdMins').innerText = "00";
+                document.getElementById('cdSecs').innerText = "00";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 3. TOGETHER COUNTER
+        function updateTogetherCounter() {
+            const startDate = new Date("2024-10-29T00:00:00").getTime();
+            const now = new Date().getTime();
+            const totalSecs = Math.floor((now - startDate) / 1000);
+
+            const days = Math.floor(totalSecs / (3600 * 24));
+            const hours = Math.floor(totalSecs / 3600);
+            const mins = Math.floor(totalSecs / 60);
+
+            document.getElementById('daysTogether').innerText = days.toLocaleString();
+            document.getElementById('hoursTogether').innerText = hours.toLocaleString();
+            document.getElementById('minsTogether').innerText = mins.toLocaleString();
+        }
+        updateTogetherCounter();
+
+        // 4. AUDIO SYSTEM (SONG, MAIN VOICE NOTE, CHAPTER MINI AUDIOS)
+        let songPlaying = false;
+        let vnPlaying = false;
+        const bgSong = document.getElementById('bgSong');
+        const bgVoiceNote = document.getElementById('bgVoiceNote');
+        const miniPlayer = document.getElementById('miniPlayer');
+
+        const fallbackSong = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-ambient-111425.mp3";
+        const fallbackVN = "audio/voice_note.mp3";
+
+        function initAudioSources() {
+            bgSong.src = localStorage.getItem('v_audio') || 'audio/bg_song.mp3';
+            bgVoiceNote.src = localStorage.getItem('v_voicenote') || fallbackVN;
+            bgSong.onerror = () => { bgSong.src = fallbackSong; };
+        }
+        initAudioSources();
+
+        function toggleSong() {
+            if (songPlaying) {
+                bgSong.pause();
+                songPlaying = false;
+                document.getElementById('songText').innerText = "Play Song";
+                document.getElementById('songIcon').innerText = "🎵";
+            } else {
+                if (vnPlaying) toggleVoiceNote();
                 bgSong.play().then(() => {
-                    isPlaying = true;
-                    document.getElementById('audioText').innerText = "Pause";
-                    document.getElementById('audioIcon').innerText = "⏸️";
+                    songPlaying = true;
+                    document.getElementById('songText').innerText = "Pause";
+                    document.getElementById('songIcon').innerText = "⏸️";
                 }).catch(e => console.log(e));
             }
         }
 
-        function popConfetti() {
-            if (window.confetti) {
-                confetti({ particleCount: 70, spread: 75, origin: { y: 0.6 } });
+        function toggleVoiceNote() {
+            if (vnPlaying) {
+                bgVoiceNote.pause();
+                vnPlaying = false;
+                document.getElementById('vnIcon').innerText = "🎙️";
+            } else {
+                if (songPlaying) bgSong.volume = 0.2;
+                bgVoiceNote.play().then(() => {
+                    vnPlaying = true;
+                    document.getElementById('vnIcon').innerText = "🔊";
+                }).catch(e => {
+                    showModal("🎙️", "Voice Note Ready!", "Make sure audio/voice_note.mp3 is placed in your project folder.");
+                });
             }
         }
 
-        function openCoupon(title, msg) {
-            popConfetti();
-            document.getElementById('mIcon').innerText = "💖";
+        bgVoiceNote.onended = () => {
+            vnPlaying = false;
+            document.getElementById('vnIcon').innerText = "🎙️";
+            if (songPlaying) bgSong.volume = 1.0;
+        };
+
+        function playMiniVoice(path) {
+            miniPlayer.src = path;
+            miniPlayer.play().then(() => {
+                popHearts();
+            }).catch(e => {
+                showModal("🎙️", "Mini Voice Note", "Audio file placed in audio/ folder will play here!");
+            });
+        }
+
+        // 5. CONFETTI ENGINE
+        function popHearts() {
+            if (window.confetti) {
+                confetti({
+                    particleCount: 75,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#ff4d6d', '#f4c430', '#ffffff', '#ffd166']
+                });
+            }
+        }
+
+        // 6. MODAL INTERFACES (ZERO ALERT)
+        function showModal(icon, title, message) {
+            popHearts();
+            document.getElementById('mIcon').innerText = icon;
             document.getElementById('mTitle').innerText = title;
-            document.getElementById('mMsg').innerText = msg;
-            document.getElementById('commonModal').classList.add('active');
+            document.getElementById('mMsg').innerText = message;
+            document.getElementById('customModal').classList.add('active');
+        }
+        function closeModal() {
+            document.getElementById('customModal').classList.remove('active');
         }
 
-        function openThali() {
-            popConfetti();
-            document.getElementById('mIcon').innerText = "🪔 🥛";
-            document.getElementById('mTitle').innerText = "Pehla Ghoont Amrit Paani";
-            document.getElementById('mMsg').innerText = "Aapka Karwa Chauth vrat safal hua! Ye pehla ghoont paani ka meri taraf se. Ab pyaari si smile do!";
-            document.getElementById('commonModal').classList.add('active');
-        }
+        function openEnvelope(title, message) { showModal("💌", title, message); }
+        function claimCoupon(num, title, text) { showModal("💖", `${title} (${num}) Activated!`, text); }
 
-        function closeCommonModal() {
-            document.getElementById('commonModal').classList.remove('active');
-        }
-
-        // Chhalni Reveal
-        let revealed = false;
+        // 7. VIRTUAL CHHALNI
+        let chhalniRevealed = false;
         function openChhalni() {
-            revealed = false;
+            chhalniRevealed = false;
             document.getElementById('chhalniImg').src = "https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&w=600&q=80";
             document.getElementById('chhalniCap').innerText = "Pehle Chaand dekho... Tap circle to see your real moon!";
             document.getElementById('chhalniModal').classList.add('active');
         }
         function revealMoon() {
-            if (!revealed) {
-                const target = localStorage.getItem('v_chhalni') || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80";
-                document.getElementById('chhalniImg').src = target;
-                document.getElementById('chhalniCap').innerText = "Ab apna asli Chaand dekho! ❤️";
-                popConfetti();
-                revealed = true;
+            if (!chhalniRevealed) {
+                const userPhoto = localStorage.getItem('v_chhalni') || "images/rudhar.jpg";
+                const cImg = document.getElementById('chhalniImg');
+                cImg.style.opacity = '0';
+                setTimeout(() => {
+                    cImg.src = userPhoto;
+                    cImg.style.opacity = '1';
+                    document.getElementById('chhalniCap').innerText = "Ab apna asli Chaand dekho! ❤️";
+                    popHearts();
+                }, 300);
+                chhalniRevealed = true;
             }
         }
 
-        // Passcode 3132 Trigger (3 Taps on Moon)
-        let clicks = 0;
-        let timer;
+        // 8. VIRTUAL THALI
+        function openThali() {
+            showModal("🪔 🥛", "Pehla Ghoont Amrit Paani", "Aapka Karwa Chauth vrat safal hua jaan! Ye pehla ghoont paani ka meri taraf se aapke hothon par. Fasting complete, ab pyaari si smile do aur kuch meetha kha lo!");
+        }
+
+        // 9. WAX SEAL LETTER UNBREAK
+        function breakWaxSeal() {
+            popHearts();
+            document.getElementById('waxEnvelope').style.display = 'none';
+            document.getElementById('unfoldedLetter').style.display = 'block';
+        }
+
+        function triggerMoonriseUnlock() {
+            popHearts();
+            showModal("🌕", "Chaand Nikal Aaya!", "Mubarak ho! Karwa Chauth ka chaand aasmaan mein roshan ho chuka hai. Sacred vows unlocked!");
+            document.getElementById('waxStatus').innerText = "Moon is up! The letter is unlocked for you.";
+        }
+
+        // 10. MEMORY JAR SLIPS
+        const memoryJarSlips = [
+            "Jab hum pehli baar Oberoi cafe mein chupkar mile the aur coffee thandi ho gayi thi!",
+            "School bus mein bina baat kiye sirf aankhon se ek doosre ko dekhna aur muskuraana.",
+            "Saavan ke mahine mein tera laal choodiyan pehanna aur mere liye dua maangna.",
+            "Wo late-night calls jab hum so bhi jaate the par phone cut karne ka dil nahi karta tha.",
+            "Jab tune pehli baar gusse mein daanta tha aur 5 minute baad khud hi sorry bola tha ❤️"
+        ];
+        function pickMemoryJar() {
+            const slip = memoryJarSlips[Math.floor(Math.random() * memoryJarSlips.length)];
+            showModal("🏺", "Memory Jar Token", `"${slip}"\n\n— A special moment locked in our hearts.`);
+        }
+
+        // 11. SHOOTING STAR WISH
+        function makeWish() {
+            showModal("🌟", "Make A Wish", "Akshra, jab bhi koi shooting star dekho, ek gehri saans lo aur jo maangna hai maang lo. Rudhar is working to make all your dreams come true! ❤️");
+        }
+
+        // 12. DEVELOPER STUDIO VAULT (PASSCODE 3132)
+        let moonClicks = 0;
+        let moonTimer;
         function handleMoonClick() {
-            clicks++;
-            clearTimeout(timer);
-            timer = setTimeout(() => { clicks = 0; }, 900);
-            if (clicks >= 3) {
-                clicks = 0;
-                const p = prompt("Enter Developer Studio Passcode:");
-                if (p === "3132") {
+            moonClicks++;
+            clearTimeout(moonTimer);
+            moonTimer = setTimeout(() => { moonClicks = 0; }, 900);
+            if (moonClicks >= 3) {
+                moonClicks = 0;
+                const pass = prompt("🔐 Enter Developer Studio Passcode:");
+                if (pass === "3132") {
                     openStudioVault();
-                } else if (p !== null) {
-                    alert("Incorrect Passcode!");
+                } else if (pass !== null) {
+                    showModal("🔒", "Access Denied", "Incorrect passcode entered!");
                 }
             }
         }
 
         function openStudioVault() {
             document.getElementById('vAudio').value = localStorage.getItem('v_audio') || '';
+            document.getElementById('vVoiceNote').value = localStorage.getItem('v_voicenote') || '';
             for (let i = 1; i <= 5; i++) {
                 document.getElementById('vTitle' + i).value = localStorage.getItem('v_title' + i) || document.getElementById('cTitle' + i).innerText;
                 document.getElementById('vCap' + i).value = localStorage.getItem('v_cap' + i) || document.getElementById('cCap' + i).innerText;
@@ -1126,14 +1680,13 @@
             document.getElementById('vaultPanel').classList.add('open');
         }
 
-        // Direct Image Upload -> Base64
-        function uploadPhoto(input, key) {
+        function uploadBase64(input, key) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     localStorage.setItem(key, e.target.result);
-                    alert("Photo selected! Click 'Save All Memories' at the bottom to finalize.");
+                    showModal("📸", "Image Selected", "Photo loaded into preview memory! Click 'Save All Memories' to finalize.");
                 };
                 reader.readAsDataURL(file);
             }
@@ -1141,7 +1694,9 @@
 
         function saveAllVaultData() {
             const a = document.getElementById('vAudio').value.trim();
+            const vn = document.getElementById('vVoiceNote').value.trim();
             if (a) localStorage.setItem('v_audio', a);
+            if (vn) localStorage.setItem('v_voicenote', vn);
 
             for (let i = 1; i <= 5; i++) {
                 localStorage.setItem('v_title' + i, document.getElementById('vTitle' + i).value.trim());
@@ -1154,11 +1709,30 @@
             localStorage.setItem('v_letter_content', document.getElementById('vLetterContent').value.trim());
             localStorage.setItem('v_letter_sign', document.getElementById('vLetterSign').value.trim());
 
-            loadAllSavedData();
+            applyAllCustomData();
             document.getElementById('vaultPanel').classList.remove('open');
-            popConfetti();
-            alert("✨ All changes saved & applied live!");
+            showModal("✨", "Studio Updated", "All memories, texts, and audio configurations saved successfully!");
         }
+
+        function applyAllCustomData() {
+            if (localStorage.getItem('v_img1')) document.getElementById('img1').src = localStorage.getItem('v_img1');
+            if (localStorage.getItem('v_img2')) document.getElementById('img2').src = localStorage.getItem('v_img2');
+            if (localStorage.getItem('v_img3')) document.getElementById('img3').src = localStorage.getItem('v_img3');
+            if (localStorage.getItem('v_img4')) document.getElementById('img4').src = localStorage.getItem('v_img4');
+            if (localStorage.getItem('v_img5')) document.getElementById('img5').src = localStorage.getItem('v_img5');
+
+            for (let i = 1; i <= 5; i++) {
+                if (localStorage.getItem('v_title' + i)) document.getElementById('cTitle' + i).innerText = localStorage.getItem('v_title' + i);
+                if (localStorage.getItem('v_cap' + i)) document.getElementById('cCap' + i).innerText = localStorage.getItem('v_cap' + i);
+                if (localStorage.getItem('v_desc' + i)) document.getElementById('cDesc' + i).innerText = localStorage.getItem('v_desc' + i);
+                if (localStorage.getItem('v_quote' + i)) document.getElementById('cQuote' + i).innerText = localStorage.getItem('v_quote' + i);
+            }
+
+            if (localStorage.getItem('v_letter_head')) document.getElementById('letterHead').innerText = localStorage.getItem('v_letter_head');
+            if (localStorage.getItem('v_letter_content')) document.getElementById('letterContent').innerText = localStorage.getItem('v_letter_content');
+            if (localStorage.getItem('v_letter_sign')) document.getElementById('letterSign').innerText = localStorage.getItem('v_letter_sign');
+        }
+        applyAllCustomData();
     </script>
 </body>
 
