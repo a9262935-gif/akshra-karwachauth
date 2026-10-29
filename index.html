@@ -502,26 +502,34 @@
         }
 
         .media-frame {
-            width: 95%;
-            height: 320px;
-            border-radius: 14px;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(244, 196, 48, 0.35);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-            background: #111726;
+            border: 2px solid var(--gold);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9), 0 0 25px rgba(244, 196, 48, 0.3);
+            background: #0b0f19;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: auto !important;
+            /* Fixed height bilkul khatam */
         }
 
         .media-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
+            width: 100% !important;
+            height: auto !important;
+            /* Image ke natural aspect ratio se chalega */
+            max-height: 85vh !important;
+            /* Screen se bahar nahi jayegi */
+            display: block;
+            object-fit: contain !important;
+            /* Image bilkul nahi kategi */
+            margin: 0 auto;
         }
 
-        .media-frame:hover img {
-            transform: scale(1.05);
-        }
+
 
         .media-caption {
             position: absolute;
@@ -972,8 +980,15 @@
                 font-size: 2rem;
             }
 
-            .timeline::before {
-                left: 15px;
+            .timeline {
+                position: relative;
+                width: 100%;
+                max-width: 1100px;
+                margin: 40px auto 60px auto;
+                padding: 20px 15px;
+                height: auto !important;
+                overflow: visible !important;
+                display: block !important;
             }
 
             .chapter-card {
@@ -1255,14 +1270,14 @@
                     <p class="chap-desc" id="cDesc2">2025 ki wo Youth Parliament... Pehli baar hum dono as a partner
                         school se bahar nikle the. Aane se theek pehle hui choti si ladai pal bhar mein tab
                         gayab ho gayi jab us shaam aasmaan mein poore Chaand ke neeche hum dono ne saath chakkar
-                        lagaye[cite: 3]. Aisa laga mano wo Chaand bhi gawaah ban kar humare pyaar ko aashirwaad de raha
-                        ho[cite: 3]—na kisi teacher ka darr, na aas-paas ki duniya ki fikar, bas aapka saath aur wo
+                        lagaye. Aisa laga mano wo Chaand bhi gawaah ban kar humare pyaar ko aashirwaad de raha
+                        ho—na kisi teacher ka darr, na aas-paas ki duniya ki fikar, bas aapka saath aur wo
                         meethi baatein. 🌕💫<br><br>
 
                         Agle din ki wo subah... jab aap baalti lekar aayi aur humne ek saath brush kiya, aapne apna face
                         wash diya aur humari subah itni khoobsurat ban gayi. Aur jab bathroom ke darwaze par lock na
-                        hone par aapko darr tha, tab main ek chattaan banke sabhi ladkon ke aage khada raha[cite:
-                        10]—aapko bilkul safe rakha aur chupke se nikalne tak pehra diya. Aapki aankhon ka wo shukrana
+                        hone par aapko darr tha, tab main ek chattaan banke sabhi ladkon ke aage khada raha aapko bilkul
+                        safe rakha aur chupke se nikalne tak pehra diya. Aapki aankhon ka wo shukrana
                         main zindagi bhar nahi bhool sakta. 🛡️❤️<br><br>
                         Aur jab meri tabiyat kharab hui, vomiting aayi aur sab vyast the, tab sirf aap aayi thi mera bag
                         sambhalne, mujhe shaant karne aur sahara dene ke liye. Jab main sabko paani pila raha tha aur
