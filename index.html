@@ -557,6 +557,16 @@
             text-align: center;
         }
 
+        .envelopes-section,
+        .letters-section {
+            position: relative;
+            z-index: 10;
+            max-width: 1050px;
+            margin: 50px auto 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
         .envelopes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -571,6 +581,14 @@
             padding: 22px 16px;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
         }
 
         .envelope-card:hover {
@@ -580,8 +598,9 @@
         }
 
         .env-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
+            font-size: 34px;
+            margin-bottom: 10px;
+            display: block;
         }
 
         .env-title {
@@ -1514,7 +1533,7 @@
             </div>
             <p class="quote-line" style="font-size: 1.6rem; text-align: center; margin: 15px 0;">"Fasting is done.
                 Now and forever, you belong to my soul."</p>
-            <div class="letter-sign" id="letterSign">— Hamesha Tera, Rudhar ❤️</div>
+            <div class="letter-sign" id="letterSign">— Hamesha Apka, Rudhar ❤️</div>
         </div>
     </div>
 
