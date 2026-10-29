@@ -499,8 +499,8 @@
         }
 
         .media-frame {
-            width: 88%;
-            height: 250px;
+            width: 95%;
+            height: 320px;
             border-radius: 14px;
             overflow: hidden;
             border: 1px solid rgba(244, 196, 48, 0.35);
@@ -1094,6 +1094,30 @@
                 <span id="minsTogether">1,051,200</span> Minutes se ek doosre ki taaqat hain.
             </div>
         </section>
+        <!-- NEW COUPLE PHOTO SHOWCASE -->
+        <section style="margin: 50px 0; text-align: center; padding: 0 10px;">
+            <div class="sub-head">FOREVER & ALWAYS</div>
+            <h2 class="main-title" style="font-size: 2.2rem; margin: 0 auto; text-shadow: 0 0 15px var(--gold-glow);">
+                Humara Sabse Pyaara Pal</h2>
+            <p style="font-size: 0.82rem; color: #94a3b8; margin-top: 5px; margin-bottom: 25px;">
+                Ek doosre ke liye vishwas, bhakti aur pyaar se bhara Karwa Chauth ka yeh sabse khubsoorat lamha ❤️
+            </p>
+
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <div class="media-frame"
+                    style="width: 100%; max-width: 480px; height: auto; aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 15px 45px rgba(0,0,0,0.9), 0 0 25px var(--gold-glow); position: relative;">
+                    <img id="couplePhoto" src="images/couple.jpg"
+                        onerror="this.src='https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=700&q=80'"
+                        alt="Rudhar and Akshra"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(1.05);">
+
+                    <div class="media-caption"
+                        style="position: absolute; bottom: 15px; left: 15px; background: rgba(15, 20, 34, 0.9); border: 1px solid var(--gold); padding: 6px 14px; border-radius: 30px; font-size: 0.72rem; color: var(--gold); backdrop-filter: blur(8px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 6px;">
+                        <span>📍</span> <span>Ghar Ki Balcony • OCT 29, 2026</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- MEMORY TIMELINE (CHAPTERS 1 TO 5) -->
         <section class="timeline">
@@ -1342,14 +1366,18 @@
     <div class="modal-overlay" id="chhalniModal">
         <div class="modal-card">
             <div class="modal-title">Look Through The Chhalni</div>
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">Tap the sieve to reveal your real moon
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">Tap the sieve to reveal your real moon
             </div>
 
-            <div class="chhalni-box" onclick="revealMoon()">
-                <div class="chhalni-mesh"></div>
+            <div class="chhalni-box" onclick="revealMoon()"
+                style="position: relative; width: 220px; height: 220px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid var(--gold); box-shadow: 0 0 25px rgba(244, 196, 48, 0.4); cursor: pointer; background: #000;">
+                <div class="chhalni-mesh" id="chhalniMesh"
+                    style="position: absolute; inset: 0; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.15) 21%, transparent 22%) 0 0/6px 6px; pointer-events: none; z-index: 2; opacity: 0.15;">
+                </div>
                 <img class="chhalni-target-img" id="chhalniImg"
                     src="https://images.unsplash.com/photo-1532767153582-b1a0e5145009?auto=format&fit=crop&w=600&q=80"
-                    alt="The Moon">
+                    alt="The Moon"
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: center 18%; transform: scale(1.6); transition: transform 0.6s ease, filter 0.6s ease; z-index: 1;">
             </div>
 
             <div id="chhalniCap" style="font-size: 0.85rem; color: var(--gold); font-weight: 600;">Peeping the Karwa
@@ -1358,6 +1386,7 @@
                 onclick="document.getElementById('chhalniModal').classList.remove('active')">Done Viewing</button>
         </div>
     </div>
+
 
     <!-- DEVELOPER STUDIO CMS VAULT (PASSCODE: 3132) -->
     <div class="vault-panel" id="vaultPanel">
