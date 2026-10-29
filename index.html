@@ -976,28 +976,118 @@
                 left: 15px;
             }
 
+            .chapter-card {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-bottom: 90px;
+                width: 100%;
+                height: auto !important;
+                min-height: auto !important;
+                overflow: visible !important;
+                position: relative;
+                z-index: 2;
+            }
+
+            .chapter-card:nth-child(even) {
+                flex-direction: row-reverse;
+            }
+
+            .chapter-card:nth-child(even) .chap-content {
+                text-align: right;
+                padding-right: 40px;
+                padding-left: 0;
+            }
+
+            .chapter-card:nth-child(odd) .chap-content {
+                text-align: left;
+                padding-left: 40px;
+                padding-right: 0;
+            }
+
+        }
+
+        .chap-content {
+            width: 48%;
+            height: auto !important;
+        }
+
+        .chap-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+            word-break: break-word;
+            margin: 15px 0;
+        }
+
+        .chap-quote {
+            font-style: italic;
+            color: var(--gold);
+            font-size: 0.92rem;
+            margin: 15px 0 20px 0;
+            line-height: 1.5;
+        }
+
+        /* BADI IMAGES - HIGH IMPACT FRAME */
+        .chap-media {
+            width: 48%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: sticky;
+            top: 80px;
+        }
+
+        .media-frame {
+            width: 100%;
+            max-width: 460px;
+            /* Choti size se badha kar bada kar diya */
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(244, 196, 48, 0.25);
+            background: #0b0f19;
+            position: relative;
+        }
+
+        .media-frame img {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            /* Badi vertical photos ke liye full clarity */
+            display: block;
+            object-fit: cover;
+        }
+
+        /* MOBILE VIEW */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
             .chapter-card,
             .chapter-card:nth-child(even) {
-                flex-direction: column;
-                align-items: flex-start;
-                padding-left: 35px;
+                flex-direction: column-reverse;
+                margin-bottom: 60px;
             }
 
             .chap-content,
-            .chapter-card:nth-child(even) .chap-content {
+            .chapter-card:nth-child(even) .chap-content,
+            .chapter-card:nth-child(odd) .chap-content {
                 width: 100%;
                 text-align: left;
-                padding: 0;
-                margin-bottom: 15px;
+                padding-left: 0;
+                padding-right: 0;
+                margin-top: 20px;
             }
 
             .chap-media {
                 width: 100%;
+                position: static;
             }
 
             .media-frame {
-                width: 100%;
-                height: 210px;
+                max-width: 100%;
             }
         }
     </style>
@@ -1240,8 +1330,7 @@
             <h2 class="chap-title" id="cTitle4">Baarish, Gaadi Aur Wo Pehla Sparsh</h2>
             <p class="chap-desc">8 February 2026 ko humari 1st Anniversary par door rehne ki kami ko 10 February ki
                 Farewell ne hamesha ke liye mita diya. Sirf aapke sath wo anmol waqt bitane ke liye pehli baar bina kisi
-                ko bataye, darr aur dhadkanon ke beech gaadi ki chaabi uthayi. Jam mein faskar aur har mushkil paar
-                karke jab main school pohncha, toh Head Boy ki speech aur poora function ek taraf tha, aur dil mein sirf
+                ko bataye, darr aur dhadkanon ke beech gaadi ki chaabi uthayi aur dil mein sirf
                 aapka intezaar doosri taraf... 🌧️✨<br><br>
 
                 Function ke baad jab rimjhim baarish shuru hui, toh aakhri dance chhod kar main apna coat sambhalte hue
